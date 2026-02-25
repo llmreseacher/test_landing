@@ -56,11 +56,8 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary flex items-center justify-center">
-            <Zap className="text-white w-5 h-5 fill-current" />
-          </div>
-          <span className="font-heading font-bold text-xl tracking-tight text-slate-900">OpenClaw</span>
+        <div className="flex items-center">
+          <img src="/logo.png" alt="LLM.API" className="h-8" />
         </div>
 
         <nav className="hidden lg:flex items-center gap-8">
@@ -979,11 +976,9 @@ export default function App() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-10 md:mb-16">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary flex items-center justify-center">
-                  <Zap className="text-white w-5 h-5 fill-current" />
-                </div>
-                <span className="font-heading font-bold text-xl tracking-tight text-white">OpenClaw</span>
+              <div className="flex items-center gap-3">
+                <img src="/logo-light.png" alt="LLM.API" className="h-10" />
+                <span className="font-heading font-bold text-xl tracking-tight text-white">LLM.API</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">
                 Open-source AI agent platform.<br />100+ models. 800+ integrations.
@@ -1010,7 +1005,7 @@ export default function App() {
           </div>
 
           <div className="pt-8 border-t border-white/10 text-center">
-            <p className="text-slate-500 text-xs font-medium">© 2026 OpenClaw. All rights reserved.</p>
+            <p className="text-slate-500 text-xs font-medium">© 2026 LLM.API. All rights reserved.</p>
           </div>
         </div>
       </footer>

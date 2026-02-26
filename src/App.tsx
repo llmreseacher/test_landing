@@ -135,10 +135,10 @@ const ChatMockup = () => {
     {
       label: "Calendar & Scheduling",
       messages: [
-        { from: "user", text: "What's on my calendar today?", time: "10:21" },
-        { from: "ai", text: "You have 3 meetings today. First is with Sarah at 10am — Q1 budget review. Want me to prepare a summary of last quarter's numbers?", time: "10:21" },
+        { from: "user", text: "Hey, what's on my calendar today?", time: "10:21" },
+        { from: "ai", text: "You have 3 meetings today. The first one is with Sarah at 10am about the Q1 budget review. Want me to prepare a summary of last quarter's numbers?", time: "10:21" },
         { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday", time: "10:22" },
-        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready — sent to your email.", time: "10:22" },
+        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready and sent to your email.", time: "10:22" },
       ]
     },
     {
@@ -264,7 +264,9 @@ const TrustBar = () => {
   const metrics = [
     { value: "1M+", label: "Users" },
     { value: "800+", label: "App Connections" },
+    { value: "WhatsApp & Telegram", label: "" },
     { value: "60s", label: "Setup Time" },
+    { value: "Free Plan", label: "Available" },
   ];
 
   return (
@@ -329,7 +331,7 @@ const ValueProps = () => {
       number: "01",
       tag: "No installs. No code. No tutorials.",
       title: "Ready in 60 Seconds. No Tech Skills Needed.",
-      description: "Sign up, connect WhatsApp or Telegram, and your AI assistant is ready to work. If you can send a text message, you can use ClawCloud.",
+      description: "Sign up, connect WhatsApp or Telegram, and your OpenClaw assistant is ready to work. If you can send a text message, you can use ClawCloud.",
       icon: Zap,
       stat: "75% of DIY AI agent setups fail. ClawCloud works the first time, every time.",
       visual: (
@@ -356,9 +358,9 @@ const ValueProps = () => {
       number: "02",
       tag: "One click. All your tools. Connected.",
       title: "Connects to 800+ Apps You Already Use",
-      description: "Gmail, Google Calendar, Notion, HubSpot, Salesforce, Trello, Slack, Google Drive — your AI assistant connects to all of them with one click. No API keys, no configuration, no IT department needed.",
+      description: "Gmail, Google Calendar, Notion, HubSpot, Salesforce, Trello, Slack, Google Drive — your OpenClaw assistant connects to all of them with one click. No API keys, no configuration, no IT department needed.",
       icon: Layers,
-      stat: "Average professional uses 9+ apps daily. ClawCloud connects them all through one assistant.",
+      stat: "Average professional uses 9+ apps daily. ClawCloud connects them all through one OpenClaw assistant.",
       visual: (
         <div className="grid grid-cols-2 gap-4 w-full">
           {[
@@ -377,7 +379,7 @@ const ValueProps = () => {
       number: "03",
       tag: "Your data. Your rules. Zero lock-in.",
       title: "Always On. Always Private. Always Yours.",
-      description: "Your assistant runs 24/7 on its own secure server. Your conversations are encrypted. Your data is never shared or used for training. Cancel anytime and export everything — zero lock-in.",
+      description: "Your OpenClaw assistant runs 24/7 on its own secure server. Your conversations are encrypted. Your data is never shared or used for training. Cancel anytime and export everything with zero lock-in.",
       icon: Shield,
       stat: "74% of professionals worry about AI security. ClawCloud runs on isolated, encrypted infrastructure.",
       visual: (
@@ -408,7 +410,7 @@ const ValueProps = () => {
                 Why Thousands of Professionals Trust ClawCloud
               </h2>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed">
-                Not another chatbot. ClawCloud is a real AI employee that connects to your tools, learns how you work, and executes tasks around the clock.
+                Not another chatbot. ClawCloud runs your personal OpenClaw AI assistant that connects to your tools, learns how you work, and executes tasks around the clock.
               </p>
             </div>
             
@@ -556,7 +558,7 @@ const HowItWorks = () => {
       <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="mb-10 md:mb-20">
           <h2 className="font-bold text-slate-900 tracking-tight">Click, Click, Done.</h2>
-          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">Your AI assistant is live in 3 steps. No coding. No waiting. No IT department.</p>
+          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">Your OpenClaw assistant is live in 3 steps. No coding. No waiting. No IT department.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
@@ -571,14 +573,14 @@ const HowItWorks = () => {
             {
               step: 2,
               title: "Tell It What To Do",
-              desc: "Just text your assistant like you'd text a colleague. \"Check my email every morning and flag anything urgent.\" \"Summarize my meeting notes.\" It understands natural language — no commands or syntax.",
+              desc: "Just text your OpenClaw assistant like you'd text a colleague. \"Check my email every morning and flag anything urgent.\" \"Summarize my meeting notes and send action items to the team.\" It understands natural language — no commands or syntax.",
               visual: <DeployConfigMock />,
               icon: MessageSquare
             },
             {
               step: 3,
               title: "It Gets to Work",
-              desc: "Your assistant starts executing immediately. It checks your email, updates your calendar, drafts responses, pulls reports, and sends you summaries — all while you focus on the work that actually matters.",
+              desc: "Your OpenClaw assistant starts executing immediately. It checks your email, updates your calendar, drafts responses, pulls reports, and sends you summaries — all while you focus on the work that actually matters.",
               visual: <DeployStatusMock />,
               icon: Activity
             }
@@ -603,7 +605,7 @@ const HowItWorks = () => {
 
         <div className="mt-12 md:mt-24 text-center">
           <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
-            Try Free — Your Assistant in 60 Seconds
+            Try Free — Your OpenClaw Assistant in 60 Seconds
           </a>
         </div>
       </div>
@@ -617,8 +619,8 @@ const OpenCloudFeatures = () => {
     <section className="py-12 md:py-16 bg-slate-50">
       <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="mb-10 md:mb-16">
-          <h2 className="font-bold text-slate-900 tracking-tight">One Assistant. Everything Handled.</h2>
-          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">From emails to reports, from scheduling to research — your AI assistant handles the busywork across all your tools.</p>
+          <h2 className="font-bold text-slate-900 tracking-tight">One OpenClaw Assistant. Everything Handled.</h2>
+          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">From emails to reports, from scheduling to research — your OpenClaw assistant handles the busywork across all your tools.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 md:gap-6">
@@ -710,7 +712,7 @@ const OpenCloudFeatures = () => {
                 <h3 className="text-xl font-bold">800+ App Connections</h3>
               </div>
               <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
-                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your assistant connects to all the tools you already use. One click, no configuration.
+                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your OpenClaw assistant connects to all the tools you already use. One click, no configuration.
               </p>
             </div>
             <div className="flex items-center">
@@ -732,7 +734,7 @@ const Pricing = () => {
       <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Start Free. Upgrade When You're Ready.</h2>
-          <p className="text-slate-500 text-base md:text-lg">No credit card. No commitment. Your AI assistant is live in 60 seconds.</p>
+          <p className="text-slate-500 text-base md:text-lg">No credit card. No commitment. Your OpenClaw assistant is live in 60 seconds.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -740,8 +742,8 @@ const Pricing = () => {
             {
               name: "Free",
               price: "$0",
-              desc: "Try your AI assistant, no commitment",
-              features: ["1 AI assistant", "150 tasks included", "WhatsApp & Telegram", "Gmail, Calendar, Slack connections", "Powered by top AI (Claude, GPT, Gemini)", "Community support"],
+              desc: "Try your OpenClaw assistant, no commitment",
+              features: ["1 OpenClaw assistant", "150 tasks included", "WhatsApp & Telegram", "Gmail, Calendar, Slack connections", "Powered by top AI (Claude, GPT, Gemini)", "Community support"],
               cta: "Get Started Free",
               highlight: false
             },
@@ -749,7 +751,7 @@ const Pricing = () => {
               name: "Pro",
               price: "$29",
               desc: "For professionals who want to 10x their output",
-              features: ["Everything in Free", "Unlimited tasks", "Multiple AI assistants", "All 800+ app connections", "Email management & auto-replies", "Weekly automated reports", "Priority support", "Always-on (24/7)"],
+              features: ["Everything in Free", "Unlimited tasks", "Multiple OpenClaw assistants", "All 800+ app connections", "Email management & auto-replies", "Weekly automated reports", "Priority support", "Always-on (24/7)"],
               cta: "Start with Pro",
               highlight: true
             },
@@ -757,7 +759,7 @@ const Pricing = () => {
               name: "Team",
               price: "$99",
               desc: "For teams that want AI-powered operations",
-              features: ["Everything in Pro", "Unlimited AI assistants", "Team collaboration & shared assistants", "Custom workflows", "Advanced analytics & insights", "Priority support + SLA"],
+              features: ["Everything in Pro", "Unlimited OpenClaw assistants", "Team collaboration & shared assistants", "Custom workflows", "Advanced analytics & insights", "Priority support + SLA"],
               cta: "Start with Team",
               highlight: false
             },
@@ -840,27 +842,31 @@ const FAQ = () => {
   const faqs = [
     {
       q: "What is ClawCloud?",
-      a: "ClawCloud is an AI assistant that handles your emails, calendar, tasks, and more — all through WhatsApp, Telegram, or Slack. Think of it as a smart team member that works 24/7, connects to 800+ apps, and costs a fraction of a human assistant."
+      a: "ClawCloud is a platform that runs OpenClaw, an AI assistant that handles your emails, calendar, tasks, and more through WhatsApp, Telegram, or Slack. Think of it as a smart team member that works 24/7, connects to 800+ apps, and costs a fraction of a human assistant."
+    },
+    {
+      q: "What is OpenClaw?",
+      a: "OpenClaw is an open-source AI agent trusted by over 1 million users worldwide. It's the engine behind your ClawCloud assistant, which means you get a proven, transparent technology with no vendor lock-in."
     },
     {
       q: "Do I need any technical skills?",
-      a: "Zero. If you can send a text message, you can use ClawCloud. No code, no installs, no setup. Sign up, connect WhatsApp, and start texting your assistant. It's live in 60 seconds."
+      a: "None at all. If you can send a text message, you can use ClawCloud. No code, no installs, no setup. Sign up, connect WhatsApp, and start texting your OpenClaw assistant. It's live in 60 seconds."
     },
     {
-      q: "What can the AI assistant actually do?",
+      q: "What can the OpenClaw assistant actually do?",
       a: "Manage your email (sort, reply, flag). Schedule meetings and resolve conflicts. Automate reports and status updates. Research competitors. Draft content. Monitor apps and send alerts. Basically anything repetitive that eats your time."
     },
     {
       q: "Which apps does it connect to?",
-      a: "Over 800 apps including Gmail, Google Calendar, Slack, Notion, HubSpot, Salesforce, Trello, Linear, Google Drive, and many more. All connected with one click — no API keys or passwords to share."
+      a: "Over 800 apps including Gmail, Google Calendar, Slack, Notion, HubSpot, Salesforce, Trello, Linear, Google Drive, and many more. All connected with one click, no API keys or passwords to share."
     },
     {
       q: "Is my data safe?",
-      a: "Yes. Your conversations are encrypted end-to-end. Your data is never shared with third parties or used to train AI models. Each assistant runs on its own isolated server. You can export your data and delete your account at any time."
+      a: "Yes. Your conversations are encrypted end-to-end. Your data is never shared with third parties or used to train AI models. Each OpenClaw assistant runs on its own isolated server. You can export your data and delete your account at any time."
     },
     {
       q: "How is this different from ChatGPT?",
-      a: "ChatGPT is a chat window — you ask questions, it answers. ClawCloud is an AI assistant that actually does things: reads your email, books meetings, monitors your apps, sends reports, and executes tasks autonomously. It's the difference between asking for directions and having a driver."
+      a: "ChatGPT is a chat window where you ask questions and get answers. Your OpenClaw assistant actually does things: reads your email, books meetings, monitors your apps, sends reports, and executes tasks autonomously. It's the difference between asking for directions and having a driver."
     },
     {
       q: "What if I want to cancel?",
@@ -868,7 +874,7 @@ const FAQ = () => {
     },
     {
       q: "Is there a free plan?",
-      a: "Yes. Start free with 150 tasks included, no credit card. Your AI assistant is live in 60 seconds."
+      a: "Yes. Start free with 150 tasks included, no credit card. Your OpenClaw assistant is live in 60 seconds."
     }
   ];
 
@@ -877,7 +883,7 @@ const FAQ = () => {
       <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-slate-500">Everything you need to know about ClawCloud.</p>
+          <p className="text-slate-500">Everything you need to know about ClawCloud and OpenClaw.</p>
         </div>
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, i) => (
@@ -912,14 +918,14 @@ export default function App() {
             >
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider">
                 <Sparkles className="w-4 h-4" />
-                AI Assistant Platform
+                OpenClaw AI Assistant Platform
               </div>
               <h1 className="text-slate-900">
-                Your AI Assistant That<br />
+                Your OpenClaw Assistant That<br />
                 <span className="text-primary">Actually Gets Work Done</span>
               </h1>
               <p className="text-base md:text-xl text-[#4D4D4D] max-w-lg leading-relaxed">
-                ClawCloud gives you a personal AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back — all through WhatsApp, Telegram, or Slack. No setup, no coding, no tech skills. Ready in 60 seconds.
+                ClawCloud gives you a personal OpenClaw AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back through WhatsApp, Telegram, or Slack. No setup, no coding, no tech skills. Ready in 60 seconds.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
@@ -961,11 +967,11 @@ export default function App() {
         <div className="container mx-auto px-6 lg:px-12 xl:px-20 text-center relative z-10">
           <h2 className="text-white mb-4">Ready to Get Your Time Back?</h2>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-2">
-            Join thousands of founders, marketers, and teams who delegate their busywork to ClawCloud.
+            Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant on ClawCloud.
           </p>
           <p className="text-sm text-slate-500 mb-8 md:mb-12">No credit card. No setup. No tech skills. Just results.</p>
           <a href="https://app.llmapi.ai/signup" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
-            Try Free — 60 Seconds to Your AI Assistant
+            Try Free — 60 Seconds to Your OpenClaw Assistant
           </a>
         </div>
       </section>
@@ -980,7 +986,7 @@ export default function App() {
                 <span className="font-heading font-bold text-xl tracking-tight text-white">LLM.API</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Your AI assistant that handles emails, calendar, tasks, and more — through WhatsApp, Telegram, or Slack.
+                Your OpenClaw assistant that handles emails, calendar, tasks, and more — through WhatsApp, Telegram, or Slack.
               </p>
             </div>
 

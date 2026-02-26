@@ -173,37 +173,22 @@ const ChatMockup = () => {
   return (
     <div className="relative z-10 rounded-xl shadow-2xl w-full mx-auto lg:mx-0 overflow-hidden border border-slate-200">
       {/* Telegram header */}
-      <div className="bg-[#7B71C5] px-4 py-3 flex items-center gap-3">
+      <div className="bg-[#517DA2] px-4 py-3 flex items-center gap-3">
         <ArrowRight className="w-5 h-5 text-white/80 rotate-180" />
         <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
           <Sparkles className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
-          <div className="text-sm font-semibold text-white">ClawCloud Assistant</div>
+          <div className="text-sm font-semibold text-white">OpenClaw AI Agent</div>
           <div className="text-[11px] text-white/70">online</div>
         </div>
         <Search className="w-5 h-5 text-white/60" />
       </div>
 
-      {/* Scenario tabs */}
-      <div className="bg-[#6B61B5] px-3 py-1.5 flex gap-1 overflow-x-auto">
-        {scenarios.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => setScenario(i)}
-            className={`text-[10px] font-semibold px-3 py-1 rounded-full whitespace-nowrap transition-all ${
-              i === scenario ? 'bg-white/25 text-white' : 'text-white/50 hover:text-white/70'
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Chat area with green gradient background */}
+      {/* Chat area with background image */}
       <div
-        className="p-4 min-h-[260px] md:min-h-[300px]"
-        style={{ background: 'linear-gradient(135deg, #DBEDBA 0%, #A7CF8C 50%, #8EC97A 100%)' }}
+        className="p-4 h-[300px] md:h-[340px] overflow-hidden"
+        style={{ backgroundImage: 'url(/tg-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -244,7 +229,7 @@ const ChatMockup = () => {
         <div className="flex-1 bg-slate-50 rounded-full px-4 py-2 text-xs text-slate-400 border border-slate-200">
           Message
         </div>
-        <div className="w-8 h-8 rounded-full bg-[#7B71C5] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-[#517DA2] flex items-center justify-center">
           <ArrowRight className="w-4 h-4 text-white" />
         </div>
       </div>

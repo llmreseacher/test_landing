@@ -685,13 +685,9 @@ const OpenCloudFeatures = () => {
             <p className="text-slate-500 text-sm leading-relaxed">
               Summarizes documents, pulls data from multiple sources, and delivers concise briefs.
             </p>
-            <ul className="mt-auto pt-2 space-y-1.5">
-              {['Market analysis', 'Doc summaries', 'Data reports'].map(item => (
-                <li key={item} className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                  <Check className="w-3 h-3 text-emerald-500" /> {item}
-                </li>
-              ))}
-            </ul>
+            <div className="mt-auto pt-4 grid grid-cols-3 gap-2">
+              {[1,2,3].map(i => <div key={i} className="aspect-square bg-slate-50 rounded-xl border border-slate-100"></div>)}
+            </div>
           </div>
 
           <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
@@ -700,30 +696,26 @@ const OpenCloudFeatures = () => {
               <h3 className="text-lg font-bold">Content & Writing</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Drafts social posts, newsletters, meeting notes, and reports. Adapts to your brand voice.
+              Drafts social posts, email newsletters, meeting notes, and reports. Adapts to your brand voice. Repurposes one piece into 5 formats automatically.
             </p>
-            <ul className="mt-auto pt-2 space-y-1.5">
-              {['Blog posts', 'Email drafts', 'Meeting notes'].map(item => (
-                <li key={item} className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                  <Check className="w-3 h-3 text-emerald-500" /> {item}
-                </li>
-              ))}
-            </ul>
+            <div className="mt-auto pt-4 flex items-center justify-center">
+              <FileText className="w-8 h-8 text-slate-200" />
+            </div>
           </div>
 
-          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between group gap-4">
-            <div className="space-y-4">
+          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center justify-between group gap-3">
+            <div className="space-y-2">
               <div className="flex items-center gap-3 text-slate-900">
                 <Layers className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-bold">800+ App Connections</h3>
               </div>
               <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
-                Gmail, Slack, Notion, HubSpot, Trello, Google Drive — connects to all your tools. One click, no setup.
+                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your OpenClaw assistant connects to all the tools you already use. One click, no configuration.
               </p>
             </div>
-            <div className="flex items-center">
-              <div className="w-24 h-24 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Layers className="w-10 h-10 text-slate-200" />
+            <div className="flex items-center shrink-0">
+              <div className="w-20 h-20 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Layers className="w-8 h-8 text-slate-200" />
               </div>
             </div>
           </div>

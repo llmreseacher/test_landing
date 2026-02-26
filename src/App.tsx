@@ -136,11 +136,9 @@ const ChatMockup = () => {
       label: "Calendar & Scheduling",
       messages: [
         { from: "user", text: "Hey, what's on my calendar today?", time: "10:21" },
-        { from: "ai", text: "You have 3 meetings today. The first one is with Sarah at 10am about the Q1 budget review. Want me to prepare a summary of last quarter's numbers?", time: "10:21" },
+        { from: "ai", text: "You have 3 meetings today:\n\n1. Sarah — 10am, Q1 budget review\n2. Design team sync — 12pm\n3. Tom — 2pm, partnership call\n\nWant me to prepare a summary of last quarter's numbers for the budget review?", time: "10:21" },
         { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday", time: "10:22" },
-        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready and sent to your email.", time: "10:22" },
-        { from: "user", text: "Also block Friday afternoon for deep work", time: "10:23" },
-        { from: "ai", text: "Done ✓ Friday 1–5pm blocked as \"Deep Work\" with notifications silenced. I'll decline any new invites for that slot.", time: "10:23" },
+        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified and confirmed the new time. Your Q1 summary is ready — key highlights sent to your email. Revenue up 14% vs last quarter.", time: "10:22" },
       ]
     },
     {
@@ -150,8 +148,6 @@ const ChatMockup = () => {
         { from: "ai", text: "You have 23 new emails. I flagged 3 urgent ones:\n\n1. Client invoice overdue — from accounting\n2. Server downtime alert — from DevOps\n3. Board meeting moved to Friday — from CEO", time: "08:05" },
         { from: "user", text: "Draft a reply to the accounting one, tell them we'll pay by Friday", time: "08:06" },
         { from: "ai", text: "Done ✓ Draft sent to your inbox for review. Subject: \"Re: Invoice #4521 — Payment scheduled for Friday.\" Want me to send it directly next time?", time: "08:06" },
-        { from: "user", text: "Yes, auto-send for routine replies. What about the DevOps alert?", time: "08:07" },
-        { from: "ai", text: "Auto-send enabled for routine replies ✓ The DevOps alert: staging server was down for 12 min, already recovered. I've added it to your weekly incident log.", time: "08:07" },
       ]
     },
     {
@@ -161,8 +157,6 @@ const ChatMockup = () => {
         { from: "ai", text: "Got it ✓ I'll pull your HubSpot weekly sales data every Monday at 8am and send you a summary here. Want me to include a comparison with the previous week?", time: "09:14" },
         { from: "user", text: "Yes, and also post it to the #sales Slack channel", time: "09:15" },
         { from: "ai", text: "Done ✓ Recurring task set:\n• Every Monday 8am\n• HubSpot sales summary + week-over-week comparison\n• Sent here + #sales on Slack\n\nFirst report arrives next Monday.", time: "09:15" },
-        { from: "user", text: "Can you also track if any deal over $10k closes?", time: "09:16" },
-        { from: "ai", text: "On it ✓ I'll monitor HubSpot in real-time. When any deal over $10k closes, you'll get an instant alert here and in #sales.", time: "09:16" },
       ]
     }
   ];

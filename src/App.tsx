@@ -129,61 +129,122 @@ const TypewriterText = ({ text, delay = 50 }: { text: string; delay?: number }) 
 };
 
 const ChatMockup = () => {
-  const messages = [
-    { from: "user", text: "Hey, what's on my calendar today?", time: "10:21" },
-    { from: "ai", text: "You have 3 meetings today. The first one is with Sarah at 10am about the Q1 budget review. Want me to prepare a summary of last quarter's numbers?", time: "10:21" },
-    { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday", time: "10:22" },
-    { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready — sent to your email.", time: "10:22" },
+  const [scenario, setScenario] = useState(0);
+
+  const scenarios = [
+    {
+      label: "Calendar & Scheduling",
+      messages: [
+        { from: "user", text: "What's on my calendar today?", time: "10:21" },
+        { from: "ai", text: "You have 3 meetings today. First is with Sarah at 10am — Q1 budget review. Want me to prepare a summary of last quarter's numbers?", time: "10:21" },
+        { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday", time: "10:22" },
+        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready — sent to your email.", time: "10:22" },
+      ]
+    },
+    {
+      label: "Email Management",
+      messages: [
+        { from: "user", text: "Check my email and flag anything urgent", time: "08:05" },
+        { from: "ai", text: "You have 23 new emails. I flagged 3 urgent ones:\n\n1. Client invoice overdue — from accounting\n2. Server downtime alert — from DevOps\n3. Board meeting moved to Friday — from CEO", time: "08:05" },
+        { from: "user", text: "Draft a reply to the accounting one, tell them we'll pay by Friday", time: "08:06" },
+        { from: "ai", text: "Done ✓ Draft sent to your inbox for review. Subject: \"Re: Invoice #4521 — Payment scheduled for Friday.\" Want me to send it directly next time?", time: "08:06" },
+      ]
+    },
+    {
+      label: "Task Automation",
+      messages: [
+        { from: "user", text: "Every Monday morning, send me a summary of last week's sales from HubSpot", time: "09:14" },
+        { from: "ai", text: "Got it ✓ I'll pull your HubSpot weekly sales data every Monday at 8am and send you a summary here. Want me to include a comparison with the previous week?", time: "09:14" },
+        { from: "user", text: "Yes, and also post it to the #sales Slack channel", time: "09:15" },
+        { from: "ai", text: "Done ✓ Recurring task set:\n• Every Monday 8am\n• HubSpot sales summary + week-over-week comparison\n• Sent here + #sales on Slack\n\nFirst report arrives next Monday.", time: "09:15" },
+      ]
+    }
   ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setScenario((prev) => (prev + 1) % scenarios.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const current = scenarios[scenario];
 
   return (
     <div className="relative z-10 rounded-xl shadow-2xl w-full mx-auto lg:mx-0 overflow-hidden border border-slate-200">
       {/* Telegram header */}
-      <div className="bg-[#517DA2] px-4 py-3 flex items-center gap-3">
+      <div className="bg-[#7B71C5] px-4 py-3 flex items-center gap-3">
         <ArrowRight className="w-5 h-5 text-white/80 rotate-180" />
-        <div className="w-9 h-9 rounded-full bg-[#7B9EB7] flex items-center justify-center">
+        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
           <Sparkles className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
           <div className="text-sm font-semibold text-white">ClawCloud Assistant</div>
           <div className="text-[11px] text-white/70">online</div>
         </div>
-        <Search className="w-5 h-5 text-white/70" />
+        <Search className="w-5 h-5 text-white/60" />
       </div>
 
-      {/* Chat area with Telegram wallpaper */}
-      <div className="bg-[#C8D9E6] p-4 space-y-3 min-h-[260px] md:min-h-[300px]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23b0c4d4\' fill-opacity=\'0.15\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}>
-        {messages.map((msg, i) => (
-          <motion.div
+      {/* Scenario tabs */}
+      <div className="bg-[#6B61B5] px-3 py-1.5 flex gap-1 overflow-x-auto">
+        {scenarios.map((s, i) => (
+          <button
             key={i}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.8, duration: 0.4 }}
-            className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+            onClick={() => setScenario(i)}
+            className={`text-[10px] font-semibold px-3 py-1 rounded-full whitespace-nowrap transition-all ${
+              i === scenario ? 'bg-white/25 text-white' : 'text-white/50 hover:text-white/70'
+            }`}
           >
-            <div className={`max-w-[80%] px-3 py-2 text-[13px] leading-relaxed shadow-sm relative ${
-              msg.from === 'user'
-                ? 'bg-[#EEFFDE] text-slate-800 rounded-xl rounded-br-sm'
-                : 'bg-white text-slate-800 rounded-xl rounded-bl-sm'
-            }`}>
-              {msg.text}
-              <span className={`text-[10px] float-right ml-2 mt-1 ${msg.from === 'user' ? 'text-emerald-600/50' : 'text-slate-400'}`}>
-                {msg.time} {msg.from === 'user' && '✓✓'}
-              </span>
-            </div>
-          </motion.div>
+            {s.label}
+          </button>
         ))}
       </div>
 
+      {/* Chat area with green gradient background */}
+      <div
+        className="p-4 min-h-[260px] md:min-h-[300px]"
+        style={{ background: 'linear-gradient(135deg, #DBEDBA 0%, #A7CF8C 50%, #8EC97A 100%)' }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={scenario}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-3"
+          >
+            {current.messages.map((msg, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.4, duration: 0.3 }}
+                className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`max-w-[82%] px-3 py-2 text-[12px] md:text-[13px] leading-relaxed shadow-sm whitespace-pre-line ${
+                  msg.from === 'user'
+                    ? 'bg-[#EEFFDE] text-slate-800 rounded-xl rounded-br-sm'
+                    : 'bg-white text-slate-800 rounded-xl rounded-bl-sm'
+                }`}>
+                  {msg.text}
+                  <span className={`text-[9px] float-right ml-2 mt-1 ${msg.from === 'user' ? 'text-[#4FAE4E]/60' : 'text-slate-400'}`}>
+                    {msg.time} {msg.from === 'user' && <span className="text-[#4FAE4E]/60">✓✓</span>}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
       {/* Input bar */}
-      <div className="bg-white px-3 py-2.5 flex items-center gap-2 border-t border-slate-100">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-[#517DA2]">
-          <Plus className="w-5 h-5" />
-        </div>
+      <div className="bg-white px-3 py-2.5 flex items-center gap-2">
+        <Plus className="w-6 h-6 text-slate-400" />
         <div className="flex-1 bg-slate-50 rounded-full px-4 py-2 text-xs text-slate-400 border border-slate-200">
           Message
         </div>
-        <div className="w-8 h-8 rounded-full bg-[#517DA2] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-[#7B71C5] flex items-center justify-center">
           <ArrowRight className="w-4 h-4 text-white" />
         </div>
       </div>

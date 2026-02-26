@@ -677,7 +677,7 @@ const OpenCloudFeatures = () => {
           </div>
 
           {/* Row 2 */}
-          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-4 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
               <Search className="w-5 h-5 text-primary" />
               <h3 className="text-lg font-bold">Research & Summaries</h3>
@@ -690,7 +690,7 @@ const OpenCloudFeatures = () => {
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-4 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
               <FileText className="w-5 h-5 text-primary" />
               <h3 className="text-lg font-bold">Content & Writing</h3>
@@ -703,20 +703,16 @@ const OpenCloudFeatures = () => {
             </div>
           </div>
 
-          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-4 sm:p-5 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center justify-between group gap-3">
-            <div className="space-y-2">
-              <div className="flex items-center gap-3 text-slate-900">
-                <Layers className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-bold">800+ App Connections</h3>
-              </div>
-              <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
-                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your OpenClaw assistant connects to all the tools you already use. One click, no configuration.
-              </p>
+          <div className="sm:col-span-2 md:col-span-4 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+            <div className="flex items-center gap-3 text-slate-900">
+              <Layers className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold">800+ App Connections</h3>
             </div>
-            <div className="flex items-center shrink-0">
-              <div className="w-20 h-20 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Layers className="w-8 h-8 text-slate-200" />
-              </div>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your OpenClaw assistant connects to all the tools you already use. One click, no configuration.
+            </p>
+            <div className="mt-auto pt-4 flex items-center justify-center">
+              <Layers className="w-8 h-8 text-slate-200" />
             </div>
           </div>
         </div>

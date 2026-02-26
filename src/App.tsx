@@ -69,7 +69,7 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-6">
           <button className="text-xs font-bold uppercase tracking-widest text-[#4D4D4D] hover:text-primary transition-colors">Login</button>
-          <a href="https://app.llmapi.ai/signup" className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 hover:bg-accent transition-all">
+          <a href="https://app.llmapi.ai/signup" className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
             Get Started
           </a>
         </div>
@@ -94,7 +94,7 @@ const Navbar = () => {
               <a href="#features" onClick={() => setMobileOpen(false)} className="block text-sm font-bold uppercase tracking-wider text-[#4D4D4D] hover:text-primary py-2">Docs</a>
               <div className="pt-4 border-t border-slate-200 space-y-3">
                 <button className="w-full text-sm font-bold uppercase tracking-wider text-[#4D4D4D] py-2">Login</button>
-                <a href="https://app.llmapi.ai/signup" className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 hover:bg-accent block text-center">
+                <a href="https://app.llmapi.ai/signup" className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent block text-center">
                   Get Started
                 </a>
               </div>
@@ -128,87 +128,44 @@ const TypewriterText = ({ text, delay = 50 }: { text: string; delay?: number }) 
   );
 };
 
-const InteractiveTerminal = () => {
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setStep((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const scenarios = [
-    {
-      input: 'clawcloud deploy --name "my-agent"',
-      output: "Provisioning dedicated VM... done (12s)\nInstalling OpenClaw v1.8.2... done\nConnecting WhatsApp... connected\nConnecting Telegram... connected\nAgent \"my-agent\" is live.",
-      status: "Ready to receive messages"
-    },
-    {
-      input: "clawcloud integrations --add gmail calendar github",
-      output: "Connecting Gmail... done\nConnecting Calendar... done\nConnecting GitHub... done\n800+ integrations available via Composio.",
-      status: "Integrations Active"
-    },
-    {
-      input: "clawcloud models --list --switch claude-3-5-sonnet",
-      output: "Available: Claude, GPT-5, Gemini, DeepSeek, Mistral, Llama, Grok\nSwitching to claude-3-5-sonnet... done\n100+ models from 17+ providers.",
-      status: "Model Updated"
-    }
+const ChatMockup = () => {
+  const messages = [
+    { from: "user", text: "Hey, what's on my calendar today?" },
+    { from: "ai", text: "You have 3 meetings today. The first one is with Sarah at 10am about the Q1 budget review. Want me to prepare a summary of last quarter's numbers?" },
+    { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday" },
+    { from: "ai", text: "Done. Moved your call with Tom to Thursday 2pm. He's been notified. Your Q1 summary is ready — sent to your email." },
   ];
 
-  const current = scenarios[step];
-
   return (
-    <div className="relative z-10 bg-slate-900 rounded-none p-5 md:p-8 shadow-2xl border border-slate-800 w-full mx-auto lg:mx-0 overflow-hidden">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-          <span className="text-slate-400 text-xs font-mono">bash — openclaw</span>
+    <div className="relative z-10 bg-white rounded-xl p-5 md:p-6 shadow-2xl border border-slate-200 w-full mx-auto lg:mx-0 overflow-hidden">
+      <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+          <Sparkles className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <div className="text-sm font-bold text-slate-900">ClawCloud Assistant</div>
+          <div className="text-[10px] text-emerald-500 font-medium">Online</div>
         </div>
       </div>
-      
-      <div className="font-mono text-xs md:text-sm min-h-[200px] md:min-h-[260px] flex flex-col justify-between">
-        <div>
-          <div className="flex items-start mb-4">
-            <div className="text-primary mr-2">➜</div>
-            <div className="flex-1 text-slate-100">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`input-${step}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <TypewriterText text={current.input} delay={40} />
-                </motion.div>
-              </AnimatePresence>
+
+      <div className="space-y-4 min-h-[240px] md:min-h-[280px]">
+        {messages.map((msg, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.8, duration: 0.4 }}
+            className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+              msg.from === 'user'
+                ? 'bg-primary text-white rounded-br-md'
+                : 'bg-slate-100 text-slate-700 rounded-bl-md'
+            }`}>
+              {msg.text}
             </div>
-          </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`output-${step}`}
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2 }}
-              className="text-slate-400 leading-relaxed whitespace-pre-line"
-            >
-              {current.output}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3 }}
-          className="text-emerald-400 flex items-center gap-2 mt-4"
-        >
-          <Check className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">{current.status}</span>
-        </motion.div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -239,9 +196,9 @@ const Integrations = () => {
 // --- Trust Bar ---
 const TrustBar = () => {
   const metrics = [
-    { value: "145K+", label: "GitHub Stars" },
-    { value: "800+", label: "Integrations" },
-    { value: "100+", label: "AI Models" },
+    { value: "1M+", label: "Users" },
+    { value: "800+", label: "App Connections" },
+    { value: "60s", label: "Setup Time" },
   ];
 
   return (
@@ -304,32 +261,26 @@ const ValueProps = () => {
     {
       id: 0,
       number: "01",
-      tag: "Sign up. Name your agent. Done.",
-      title: "60 Seconds, Not 60 Minutes",
-      description: "No npm install. No Docker compose. No YAML configs. No port forwarding. ClawCloud pre-configures everything: server, OpenClaw, channels, integrations. Your agent is messaging-ready before your coffee cools.",
+      tag: "No installs. No code. No tutorials.",
+      title: "Ready in 60 Seconds. No Tech Skills Needed.",
+      description: "Sign up, connect WhatsApp or Telegram, and your AI assistant is ready to work. If you can send a text message, you can use ClawCloud.",
       icon: Zap,
+      stat: "75% of DIY AI agent setups fail. ClawCloud works the first time, every time.",
       visual: (
-        <div className="bg-white border border-slate-200 rounded-none p-6 shadow-sm">
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Local Setup</div>
-              <ul className="text-[10px] space-y-2 text-slate-400 font-mono">
-                <li>• Install Docker & Python</li>
-                <li>• Configure ENV files</li>
-                <li>• Setup Port Forwarding</li>
-                <li>• Manage local DB</li>
-                <li className="text-rose-500 font-bold">~ 45 Minutes</li>
-              </ul>
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm w-full">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center"><Check className="w-4 h-4 text-emerald-600" /></div>
+              <span className="text-sm font-bold text-slate-900">Setup Complete</span>
             </div>
-            <div className="border-l border-slate-100 pl-8">
-              <div className="text-[10px] font-bold text-primary uppercase mb-4 tracking-wider">OpenClaw</div>
-              <ul className="text-[10px] space-y-2 text-slate-600 font-mono">
-                <li>• Pick a template</li>
-                <li>• Connect API keys</li>
-                <li>• Hit Deploy</li>
-                <li className="text-emerald-500 font-bold">~ 60 Seconds</li>
-              </ul>
-            </div>
+            {["Sign up with email", "Connect WhatsApp", "Start chatting with your AI"].map((step, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">{i + 1}</div>
+                <span className="text-xs font-medium text-slate-600">{step}</span>
+                <Check className="w-3 h-3 text-emerald-500 ml-auto" />
+              </div>
+            ))}
+            <div className="text-[10px] text-emerald-500 font-bold pt-2">Completed in 47 seconds</div>
           </div>
         </div>
       )
@@ -337,21 +288,18 @@ const ValueProps = () => {
     {
       id: 1,
       number: "02",
-      tag: "Your agent never sleeps. Neither does our infrastructure.",
-      title: "Always On. Always Secure. Always Updated.",
-      description: "Your agent runs on a dedicated cloud VM with 99.99% uptime. Auto-updates keep OpenClaw current without downtime. Automatic daily backups with one-click restore. No exposed tokens, no open ports. SSH access when you need it.",
-      icon: Shield,
+      tag: "One click. All your tools. Connected.",
+      title: "Connects to 800+ Apps You Already Use",
+      description: "Gmail, Google Calendar, Notion, HubSpot, Salesforce, Trello, Slack, Google Drive — your AI assistant connects to all of them with one click. No API keys, no configuration, no IT department needed.",
+      icon: Layers,
+      stat: "Average professional uses 9+ apps daily. ClawCloud connects them all through one assistant.",
       visual: (
         <div className="grid grid-cols-2 gap-4 w-full">
           {[
-            "99.9% Uptime SLA",
-            "End-to-End Encryption",
-            "Sandboxed Execution",
-            "Auto Key Rotation",
-            "IAM Controls",
-            "Audit Logs"
+            "Gmail", "Google Calendar", "Slack", "Notion",
+            "HubSpot", "Salesforce", "Trello", "Google Drive"
           ].map(item => (
-            <div key={item} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white p-3 rounded-none border border-slate-200 shadow-sm">
+            <div key={item} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
               <Check className="w-3 h-3 text-emerald-500" /> {item}
             </div>
           ))}
@@ -361,27 +309,22 @@ const ValueProps = () => {
     {
       id: 2,
       number: "03",
-      tag: "Connect everything. Automate anything.",
-      title: "800+ Tools. Every Channel. One Agent.",
-      description: "One-click OAuth connections to Gmail, Calendar, GitHub, Notion, HubSpot, Salesforce, Linear, and 790+ more via Composio. Talk to your agent on WhatsApp, Telegram, Discord, Slack, or web. One agent, every channel, every tool.",
-      icon: Code,
+      tag: "Your data. Your rules. Zero lock-in.",
+      title: "Always On. Always Private. Always Yours.",
+      description: "Your assistant runs 24/7 on its own secure server. Your conversations are encrypted. Your data is never shared or used for training. Cancel anytime and export everything — zero lock-in.",
+      icon: Shield,
+      stat: "74% of professionals worry about AI security. ClawCloud runs on isolated, encrypted infrastructure.",
       visual: (
-        <div className="space-y-4 w-full">
-          <div className="bg-white rounded-none p-4 border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 mb-3">
-              <Github className="w-4 h-4 text-slate-500" />
-              <span className="text-xs font-mono text-slate-600">openclaw/core</span>
+        <div className="grid grid-cols-2 gap-4 w-full">
+          {[
+            "24/7 Uptime", "End-to-End Encryption",
+            "No Data Training", "One-Click Export",
+            "Isolated Servers", "Cancel Anytime"
+          ].map(item => (
+            <div key={item} className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+              <Check className="w-3 h-3 text-emerald-500" /> {item}
             </div>
-            <div className="space-y-2">
-              <div className="h-2 bg-slate-100 rounded w-3/4"></div>
-              <div className="h-2 bg-slate-100 rounded w-1/2"></div>
-              <div className="h-2 bg-slate-100 rounded w-5/6"></div>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div className="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20">MIT License</div>
-            <div className="bg-emerald-50/50 text-emerald-600 text-[10px] font-bold px-3 py-1 rounded-full border border-emerald-100">15k Stars</div>
-          </div>
+          ))}
         </div>
       )
     }
@@ -389,22 +332,22 @@ const ValueProps = () => {
 
   return (
     <section id="features" ref={containerRef} className="py-12 md:py-16 bg-slate-50">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-24">
-          
+
           {/* Left Side: Sticky Content */}
           <div className="lg:w-1/3 lg:sticky lg:top-32 lg:h-fit space-y-8">
             <div className="space-y-4">
               <h2 className="font-bold text-slate-900 tracking-tight leading-tight">
-                Why Cloud Beats Local
+                Why Thousands of Professionals Trust ClawCloud
               </h2>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed">
-                Everything you need to run OpenClaw without the headaches of self-hosting. Dedicated infrastructure, instant deployment, zero maintenance.
+                Not another chatbot. ClawCloud is a real AI employee that connects to your tools, learns how you work, and executes tasks around the clock.
               </p>
             </div>
             
             <div className="pt-4">
-              <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-6 py-3 rounded-none font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
+              <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
                 Get Started Free
               </a>
             </div>
@@ -431,9 +374,12 @@ const ValueProps = () => {
                   <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl">
                     {feature.description}
                   </p>
+                  {feature.stat && (
+                    <p className="text-sm text-primary font-medium italic mt-4">{feature.stat}</p>
+                  )}
                 </div>
                 
-                <div className="bg-white/40 backdrop-blur-xl rounded-none border border-white/60 p-6 md:p-12 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
+                <div className="bg-white/40 backdrop-blur-xl rounded-xl border border-white/60 p-6 md:p-12 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                   <div className="relative z-10 flex justify-center">
                     {feature.visual}
@@ -452,7 +398,7 @@ const ValueProps = () => {
 // --- Mock-up Visuals for HowItWorks ---
 
 const ServiceSelectorMock = () => (
-  <div className="bg-white border border-slate-200 rounded-none shadow-sm overflow-hidden w-full max-w-[280px]">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full max-w-[280px]">
     <div className="p-3 border-bottom border-slate-100 bg-slate-50/50 flex items-center gap-2">
       <Plus className="w-3 h-3 text-slate-400" />
       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">New service</span>
@@ -467,7 +413,7 @@ const ServiceSelectorMock = () => (
       ].map((item, i) => (
         <div 
           key={i} 
-          className={`flex items-center justify-between p-2.5 rounded-none transition-colors ${item.active ? 'bg-primary/5 text-primary' : 'text-slate-600'}`}
+          className={`flex items-center justify-between p-2.5 rounded-xl transition-colors ${item.active ? 'bg-primary/5 text-primary' : 'text-slate-600'}`}
         >
           <div className="flex items-center gap-3">
             <item.icon className={`w-4 h-4 ${item.active ? 'text-primary' : 'text-slate-400'}`} />
@@ -481,36 +427,36 @@ const ServiceSelectorMock = () => (
 );
 
 const DeployConfigMock = () => (
-  <div className="bg-white border border-slate-200 rounded-none shadow-sm p-4 w-full max-w-[280px] space-y-4">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-4 w-full max-w-[280px] space-y-4">
     <div className="space-y-1.5">
       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Branch</div>
-      <div className="bg-slate-50 border border-slate-200 rounded-none p-2 flex items-center gap-2">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2">
         <GitBranch className="w-3 h-3 text-slate-400" />
         <span className="text-xs font-mono text-slate-600">main</span>
       </div>
     </div>
     <div className="space-y-1.5">
       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Build Command</div>
-      <div className="bg-slate-50 border border-slate-200 rounded-none p-2 flex items-center gap-2">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2">
         <Terminal className="w-3 h-3 text-slate-400" />
         <span className="text-xs font-mono text-slate-600">npm run build</span>
       </div>
     </div>
     <div className="space-y-1.5">
       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Start Command</div>
-      <div className="bg-slate-50 border border-slate-200 rounded-none p-2 flex items-center gap-2">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2">
         <Zap className="w-3 h-3 text-slate-400" />
         <span className="text-xs font-mono text-slate-600">npm start</span>
       </div>
     </div>
-    <button className="w-full bg-slate-900 text-white py-2 rounded-none text-xs font-bold hover:bg-black transition-colors">
+    <button className="w-full bg-slate-900 text-white py-2 rounded-xl text-xs font-bold hover:bg-black transition-colors">
       Manual Deploy
     </button>
   </div>
 );
 
 const DeployStatusMock = () => (
-  <div className="bg-white border border-slate-200 rounded-none shadow-sm overflow-hidden w-full max-w-[280px]">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full max-w-[280px]">
     <div className="p-3 border-b border-slate-100 bg-slate-50/50">
       <div className="flex items-center gap-2">
         <Server className="w-3 h-3 text-slate-400" />
@@ -541,31 +487,32 @@ const DeployStatusMock = () => (
 const HowItWorks = () => {
   return (
     <section id="how-it-works" className="py-12 md:py-16 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="mb-10 md:mb-20">
           <h2 className="font-bold text-slate-900 tracking-tight">Click, Click, Done.</h2>
+          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">Your AI assistant is live in 3 steps. No coding. No waiting. No IT department.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
           {[
             {
               step: 1,
-              title: "Select a Model",
-              desc: "Sign up free — no credit card required. Name your agent and choose from 100+ AI models: Claude, GPT-5, Gemini, DeepSeek, Mistral, Llama, and more. Switch models anytime.",
+              title: "Sign Up & Connect Your Apps",
+              desc: "Create your free account in 10 seconds. Connect WhatsApp or Telegram with one tap. Then connect the apps you use: Gmail, Calendar, Notion, Slack, HubSpot — all one-click OAuth, no passwords to share.",
               visual: <ServiceSelectorMock />,
-              icon: Terminal
+              icon: Sparkles
             },
             {
               step: 2,
-              title: "Connect Your Channels",
-              desc: "Connect WhatsApp, Telegram, Discord, or Slack with one click. Browse 800+ integrations and toggle on what you need — Gmail, Calendar, GitHub, Notion, and more.",
+              title: "Tell It What To Do",
+              desc: "Just text your assistant like you'd text a colleague. \"Check my email every morning and flag anything urgent.\" \"Summarize my meeting notes.\" It understands natural language — no commands or syntax.",
               visual: <DeployConfigMock />,
-              icon: CloudUpload
+              icon: MessageSquare
             },
             {
               step: 3,
-              title: "Your Agent Is Live",
-              desc: "Your OpenClaw agent is running on a dedicated cloud server. Send a message on WhatsApp or Telegram — it remembers, it executes, it reports back.",
+              title: "It Gets to Work",
+              desc: "Your assistant starts executing immediately. It checks your email, updates your calendar, drafts responses, pulls reports, and sends you summaries — all while you focus on the work that actually matters.",
               visual: <DeployStatusMock />,
               icon: Activity
             }
@@ -573,7 +520,7 @@ const HowItWorks = () => {
             <div key={i} className="flex flex-col">
               <div className="space-y-4 md:min-h-[200px]">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary/10 text-primary rounded-none flex items-center justify-center font-bold text-sm border border-primary/20">
+                  <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center font-bold text-sm border border-primary/20">
                     <item.icon className="w-5 h-5" />
                   </div>
                   <span className="text-xs font-bold text-primary uppercase tracking-widest">Step {item.step}</span>
@@ -581,7 +528,7 @@ const HowItWorks = () => {
                 <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{item.title}</h3>
                 <p className="text-slate-600 text-base leading-relaxed">{item.desc}</p>
               </div>
-              <div className="bg-slate-50 rounded-none p-6 md:p-8 flex items-center justify-center border border-slate-100 min-h-[260px] md:min-h-[320px] mt-6 md:mt-8 flex-1">
+              <div className="bg-slate-50 rounded-xl p-6 md:p-8 flex items-center justify-center border border-slate-100 min-h-[260px] md:min-h-[320px] mt-6 md:mt-8 flex-1">
                 {item.visual}
               </div>
             </div>
@@ -589,9 +536,9 @@ const HowItWorks = () => {
         </div>
 
         <div className="mt-12 md:mt-24 text-center">
-          <button className="bg-primary text-white px-7 py-3 rounded-none font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20">
-            Start Free — 60 Seconds to Your First Agent
-          </button>
+          <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
+            Try Free — Your Assistant in 60 Seconds
+          </a>
         </div>
       </div>
     </section>
@@ -602,25 +549,25 @@ const HowItWorks = () => {
 const OpenCloudFeatures = () => {
   return (
     <section className="py-12 md:py-16 bg-slate-50">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="mb-10 md:mb-16">
-          <h2 className="font-bold text-slate-900 tracking-tight">Everything Your Agent Needs. Built In.</h2>
-          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">ClawCloud is a complete platform for running OpenClaw agents in the cloud. No plugins to install, no services to configure.</p>
+          <h2 className="font-bold text-slate-900 tracking-tight">One Assistant. Everything Handled.</h2>
+          <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">From emails to reports, from scheduling to research — your AI assistant handles the busywork across all your tools.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-4 md:gap-6">
           {/* Row 1 */}
-          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between group gap-4">
+          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between group gap-4">
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-slate-900">
-                <Server className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-bold">Dedicated Cloud VM</h3>
+                <Mail className="w-6 h-6 text-primary" />
+                <h3 className="text-xl font-bold">Email Management</h3>
               </div>
               <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
-                Your agent runs on its own <strong>isolated virtual machine</strong>. No shared resources, no noisy neighbors. Consistent performance even at peak load.
+                Reads, sorts, and prioritizes your inbox. Drafts replies in your voice. Flags urgent messages. Sends follow-ups automatically. <strong>Saves you 2+ hours daily.</strong>
               </p>
               <ul className="space-y-2 pt-2">
-                {['Isolated environment', '99.99% uptime', 'SSH access'].map(item => (
+                {['Smart inbox sorting', 'Auto-draft replies', 'Follow-up reminders'].map(item => (
                   <li key={item} className="flex items-center gap-2 text-xs font-bold text-slate-400">
                     <Check className="w-3 h-3 text-emerald-500" /> {item}
                   </li>
@@ -628,94 +575,82 @@ const OpenCloudFeatures = () => {
               </ul>
             </div>
             <div className="flex items-center">
-              <div className="w-24 h-24 bg-slate-50 rounded-none border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Database className="w-10 h-10 text-slate-200" />
+              <div className="w-24 h-24 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Mail className="w-10 h-10 text-slate-200" />
               </div>
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
-              <Cpu className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">100+ AI Models</h3>
+              <Calendar className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold">Calendar & Scheduling</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Claude, GPT-5, Gemini, DeepSeek, Mistral, Llama, Grok — 100+ curated models from 17+ providers. Switch per agent, no lock-in.
+              Schedules meetings across timezones. Resolves conflicts. Blocks focus time. Sends reminders. No more back-and-forth emails to find a time.
             </p>
             <div className="mt-auto pt-4 space-y-2">
-              <div className="h-6 bg-slate-50 rounded-none border border-slate-100"></div>
-              <div className="h-6 bg-slate-50 rounded-none border border-slate-100"></div>
+              <div className="h-6 bg-slate-50 rounded-xl border border-slate-100"></div>
+              <div className="h-6 bg-slate-50 rounded-xl border border-slate-100"></div>
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
-              <Layers className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">800+ Integrations</h3>
+              <Zap className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold">Task Automation</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Gmail, Calendar, GitHub, Notion, Salesforce, HubSpot, Linear, Trello, Google Drive and more via Composio. One-click OAuth, no manual API setup.
+              Automates repetitive workflows: weekly reports, status updates, data entry, file organization. Set it once, it runs forever.
             </p>
             <div className="mt-auto pt-4">
-              <div className="bg-slate-900 rounded-none p-3 font-mono text-[10px] text-emerald-400">
-                $ opencloud deploy
+              <div className="bg-slate-900 rounded-xl p-3 text-[10px] text-emerald-400 font-medium">
+                3 workflows running
               </div>
             </div>
           </div>
 
           {/* Row 2 */}
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
-              <MessageSquare className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">Multi-Channel Messaging</h3>
+              <Search className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold">Research & Summaries</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              WhatsApp, Telegram, Discord, Slack, and web — all from one agent. Persistent memory across every channel.
+              Monitors competitors, summarizes documents, pulls data from multiple sources, and delivers concise briefs. Your personal research analyst.
             </p>
             <div className="mt-auto pt-4 grid grid-cols-3 gap-2">
-              {[1,2,3].map(i => <div key={i} className="aspect-square bg-slate-50 rounded-none border border-slate-100"></div>)}
+              {[1,2,3].map(i => <div key={i} className="aspect-square bg-slate-50 rounded-xl border border-slate-100"></div>)}
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
+          <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
             <div className="flex items-center gap-3 text-slate-900">
-              <Shield className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">Auto-Updates & Backups</h3>
+              <FileText className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-bold">Content & Writing</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              OpenClaw stays current automatically. Daily backups with one-click restore. Zero-downtime updates.
+              Drafts social posts, email newsletters, meeting notes, and reports. Adapts to your brand voice. Repurposes one piece into 5 formats automatically.
             </p>
             <div className="mt-auto pt-4 flex justify-center">
-              <MousePointer2 className="w-8 h-8 text-slate-200 animate-bounce" />
+              <FileText className="w-8 h-8 text-slate-200" />
             </div>
           </div>
 
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
-            <div className="flex items-center gap-3 text-slate-900">
-              <Terminal className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">SSH & Full Control</h3>
-            </div>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              SSH access on all plans. Run custom scripts, debug in real-time, install packages. Your server, your rules.
-            </p>
-            <div className="mt-auto pt-4">
-              <div className="w-full h-10 bg-slate-50 rounded-none border border-slate-100 flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-primary/20 animate-pulse"></div>
+          <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between group gap-4">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 text-slate-900">
+                <Layers className="w-6 h-6 text-primary" />
+                <h3 className="text-xl font-bold">800+ App Connections</h3>
               </div>
+              <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your assistant connects to all the tools you already use. One click, no configuration.
+              </p>
             </div>
-          </div>
-
-          <div className="md:col-span-3 bg-white rounded-none p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
-            <div className="flex items-center gap-3 text-slate-900">
-              <Server className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-bold">Data APIs</h3>
-            </div>
-            <p className="text-slate-500 text-sm leading-relaxed">
-              Instant ready-to-use Restful APIs for your database.
-            </p>
-            <div className="mt-auto pt-4 space-y-2">
-              <div className="h-2 bg-slate-100 rounded-full w-full"></div>
-              <div className="h-2 bg-slate-100 rounded-full w-2/3"></div>
+            <div className="flex items-center">
+              <div className="w-24 h-24 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Layers className="w-10 h-10 text-slate-200" />
+              </div>
             </div>
           </div>
         </div>
@@ -728,10 +663,10 @@ const OpenCloudFeatures = () => {
 const Pricing = () => {
   return (
     <section id="pricing" className="py-12 md:py-16 stripe-gradient">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="text-center mb-10 md:mb-16">
-          <h2 className="font-bold text-slate-900 mb-4">Start Free. Scale When You're Ready.</h2>
-          <p className="text-slate-500 text-base md:text-lg">No credit card required. Your agent is live in 60 seconds on any plan.</p>
+          <h2 className="font-bold text-slate-900 mb-4">Start Free. Upgrade When You're Ready.</h2>
+          <p className="text-slate-500 text-base md:text-lg">No credit card. No commitment. Your AI assistant is live in 60 seconds.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -739,37 +674,37 @@ const Pricing = () => {
             {
               name: "Free",
               price: "$0",
-              desc: "For trying out OpenClaw in the cloud",
-              features: ["150 AI credits included", "1 agent", "All 94 AI models", "800+ integrations", "WhatsApp, Telegram, Discord, Slack", "Community support"],
+              desc: "Try your AI assistant, no commitment",
+              features: ["1 AI assistant", "150 tasks included", "WhatsApp & Telegram", "Gmail, Calendar, Slack connections", "Powered by top AI (Claude, GPT, Gemini)", "Community support"],
               cta: "Get Started Free",
               highlight: false
             },
             {
               name: "Pro",
               price: "$29",
-              desc: "For power users and solo builders",
-              features: ["Bundled AI credits ($8–$60 value)", "Multiple agents", "Dedicated cloud VM", "All 94 models + BYOK", "800+ integrations", "All channels", "SSH access", "Auto-backups", "Priority support"],
+              desc: "For professionals who want to 10x their output",
+              features: ["Everything in Free", "Unlimited tasks", "Multiple AI assistants", "All 800+ app connections", "Email management & auto-replies", "Weekly automated reports", "Priority support", "Always-on (24/7)"],
               cta: "Start with Pro",
               highlight: true
             },
             {
               name: "Team",
               price: "$99",
-              desc: "For teams running agents at scale",
-              features: ["Everything in Pro", "Unlimited agents", "Team seats & permissions", "Shared agent library", "Advanced analytics", "Priority support + SLA"],
+              desc: "For teams that want AI-powered operations",
+              features: ["Everything in Pro", "Unlimited AI assistants", "Team collaboration & shared assistants", "Custom workflows", "Advanced analytics & insights", "Priority support + SLA"],
               cta: "Start with Team",
               highlight: false
             },
             {
               name: "Enterprise",
               price: "Custom",
-              desc: "For organizations with custom requirements",
-              features: ["Everything in Team", "Custom credit allocation", "Custom models + on-prem options", "Custom connectors & integrations", "Dedicated CSM", "SSO, audit logs, compliance", "GPU options"],
+              desc: "For organizations with security and scale requirements",
+              features: ["Everything in Team", "SSO, audit logs, compliance", "Custom integrations", "Dedicated account manager", "On-premise options", "Custom SLA"],
               cta: "Contact Sales",
               highlight: false
             }
           ].map((plan, i) => (
-            <div key={i} className={`glass-card p-6 md:p-8 rounded-none flex flex-col ${plan.highlight ? 'ring-2 ring-primary relative md:scale-105 z-10' : ''}`}>
+            <div key={i} className={`glass-card p-6 md:p-8 rounded-xl flex flex-col ${plan.highlight ? 'ring-2 ring-primary relative md:scale-105 z-10' : ''}`}>
               {plan.highlight && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                   Most Popular
@@ -790,7 +725,7 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-              <a href="https://app.llmapi.ai/signup" className={`w-full py-2 rounded-none font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
+              <a href="https://app.llmapi.ai/signup" className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
                 {plan.cta}
               </a>
             </div>
@@ -799,7 +734,7 @@ const Pricing = () => {
         
         <div className="mt-16 text-center">
           <p className="text-slate-500 text-sm font-medium">
-            Need to self-host? <span className="text-primary font-bold cursor-pointer hover:underline">Check out our Open Source documentation</span>
+            All plans include WhatsApp, Telegram & Slack access. <span className="text-primary font-bold cursor-pointer hover:underline">Compare plans in detail</span>
           </p>
         </div>
       </div>
@@ -839,44 +774,44 @@ const FAQ = () => {
   const faqs = [
     {
       q: "What is ClawCloud?",
-      a: "ClawCloud runs OpenClaw — the open-source AI agent with 145K+ GitHub stars — in the cloud for you. Each agent gets a dedicated server, connects to 800+ tools, and works across WhatsApp, Telegram, Discord, Slack, and web."
+      a: "ClawCloud is an AI assistant that handles your emails, calendar, tasks, and more — all through WhatsApp, Telegram, or Slack. Think of it as a smart team member that works 24/7, connects to 800+ apps, and costs a fraction of a human assistant."
     },
     {
-      q: "How is this different from running OpenClaw locally?",
-      a: "Local setup requires npm, Docker, environment variables, port forwarding, and ongoing maintenance. ClawCloud handles all of this. You sign in, name your agent, and it's live in 60 seconds with all channels and integrations ready."
+      q: "Do I need any technical skills?",
+      a: "Zero. If you can send a text message, you can use ClawCloud. No code, no installs, no setup. Sign up, connect WhatsApp, and start texting your assistant. It's live in 60 seconds."
     },
     {
-      q: "Is it really a dedicated server?",
-      a: "Yes. Your OpenClaw agent runs on its own isolated cloud VM — not a shared container. Your resources aren't affected by other users. SSH access is available on all paid plans."
+      q: "What can the AI assistant actually do?",
+      a: "Manage your email (sort, reply, flag). Schedule meetings and resolve conflicts. Automate reports and status updates. Research competitors. Draft content. Monitor apps and send alerts. Basically anything repetitive that eats your time."
     },
     {
-      q: "What AI models can I use?",
-      a: "100+ curated models from 17+ providers: Claude, GPT-5, Gemini, DeepSeek, Mistral, Llama, Grok, and more. Switch models per agent anytime. Bring your own API keys on paid plans."
+      q: "Which apps does it connect to?",
+      a: "Over 800 apps including Gmail, Google Calendar, Slack, Notion, HubSpot, Salesforce, Trello, Linear, Google Drive, and many more. All connected with one click — no API keys or passwords to share."
     },
     {
-      q: "What integrations are available?",
-      a: "800+ integrations via Composio: Gmail, Calendar, GitHub, Notion, Linear, Trello, HubSpot, Salesforce, Google Drive, and more. All connected with one-click OAuth — no manual API configuration."
+      q: "Is my data safe?",
+      a: "Yes. Your conversations are encrypted end-to-end. Your data is never shared with third parties or used to train AI models. Each assistant runs on its own isolated server. You can export your data and delete your account at any time."
     },
     {
-      q: "Is my data secure?",
-      a: "Conversations are encrypted end-to-end. Your data is never used to train AI models. Dedicated VM isolation means no shared state with other users. Auto-backups with one-click restore."
+      q: "How is this different from ChatGPT?",
+      a: "ChatGPT is a chat window — you ask questions, it answers. ClawCloud is an AI assistant that actually does things: reads your email, books meetings, monitors your apps, sends reports, and executes tasks autonomously. It's the difference between asking for directions and having a driver."
     },
     {
-      q: "Can I self-host later?",
-      a: "Absolutely. OpenClaw is 100% open-source. Export your data and self-host anytime. ClawCloud is the managed version of the same project — zero lock-in."
+      q: "What if I want to cancel?",
+      a: "Cancel with one click, anytime. No contracts, no penalties, no retention calls. Your data stays exportable for 30 days after cancellation."
     },
     {
       q: "Is there a free plan?",
-      a: "Yes. Start free with 150 credits, no credit card required. Your agent is live in 60 seconds."
+      a: "Yes. Start free with 150 tasks included, no credit card. Your AI assistant is live in 60 seconds."
     }
   ];
 
   return (
     <section className="py-12 md:py-16 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-slate-500">Everything you need to know about OpenClaw.</p>
+          <p className="text-slate-500">Everything you need to know about ClawCloud.</p>
         </div>
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, i) => (
@@ -901,7 +836,7 @@ export default function App() {
           <div className="absolute top-1/2 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 lg:px-12 xl:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -911,27 +846,24 @@ export default function App() {
             >
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider">
                 <Sparkles className="w-4 h-4" />
-                OpenClaw Cloud Platform
+                AI Assistant Platform
               </div>
               <h1 className="text-slate-900">
-                OpenClaw in the Cloud<br />
-                <span className="text-primary">in One Click</span>
+                Your AI Assistant That<br />
+                <span className="text-primary">Actually Gets Work Done</span>
               </h1>
               <p className="text-base md:text-xl text-[#4D4D4D] max-w-lg leading-relaxed">
-                Deploy an autonomous AI agent on a dedicated cloud server with 800+ integrations and 100+ AI models. No Docker. No terminal. No DevOps.
+                ClawCloud gives you a personal AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back — all through WhatsApp, Telegram, or Slack. No setup, no coding, no tech skills. Ready in 60 seconds.
               </p>
-              <Integrations />
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-none font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
-                  Get Started Free
+                <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
+                  Try Free — No Credit Card
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <button className="bg-slate-50 text-slate-900 px-7 py-3 rounded-none font-bold text-lg hover:bg-slate-100 transition-all border border-slate-200 flex items-center justify-center gap-2">
-                  <Github className="w-5 h-5" />
-                  Star on GitHub
-                </button>
+                <a href="#how-it-works" className="bg-slate-50 text-slate-900 px-7 py-3 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all border border-slate-200 flex items-center justify-center gap-2">
+                  See How It Works
+                </a>
               </div>
-              <p className="text-sm text-slate-500 font-medium">No credit card required. Agent live in 60 seconds.</p>
               <TrustBar />
             </motion.div>
 
@@ -941,7 +873,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="lg:mt-6"
             >
-              <InteractiveTerminal />
+              <ChatMockup />
             </motion.div>
           </div>
         </div>
@@ -960,20 +892,21 @@ export default function App() {
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
         </div>
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-white mb-8">Ready to Deploy Your AI Agent?</h2>
-          <p className="text-base md:text-xl text-slate-400 max-w-2xl mx-auto mb-8 md:mb-12">
-            No credit card. No setup. No DevOps. Just your AI agent, live in the cloud.
+        <div className="container mx-auto px-6 lg:px-12 xl:px-20 text-center relative z-10">
+          <h2 className="text-white mb-4">Ready to Get Your Time Back?</h2>
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-2">
+            Join thousands of founders, marketers, and teams who delegate their busywork to ClawCloud.
           </p>
-          <a href="https://app.llmapi.ai/signup" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-none font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
-            Get Started Free — Agent Live in 60 Seconds
+          <p className="text-sm text-slate-500 mb-8 md:mb-12">No credit card. No setup. No tech skills. Just results.</p>
+          <a href="https://app.llmapi.ai/signup" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
+            Try Free — 60 Seconds to Your AI Assistant
           </a>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="py-10 md:py-16 bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 lg:px-12 xl:px-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-10 md:mb-16">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
@@ -981,7 +914,7 @@ export default function App() {
                 <span className="font-heading font-bold text-xl tracking-tight text-white">LLM.API</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Open-source AI agent platform.<br />100+ models. 800+ integrations.
+                Your AI assistant that handles emails, calendar, tasks, and more — through WhatsApp, Telegram, or Slack.
               </p>
             </div>
 

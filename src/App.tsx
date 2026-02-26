@@ -914,7 +914,7 @@ export default function App() {
                 <Sparkles className="w-4 h-4" />
                 OpenClaw AI Assistant Platform
               </div>
-              <h1 className="text-slate-900 text-[28px] sm:text-[36px] md:text-[44px] leading-[1.12]">
+              <h1 className="text-slate-900 text-[28px] sm:text-[34px] md:text-[40px] leading-[1.15]">
                 OpenClaw AI Agent in Cloud<br />
                 <span className="text-primary">in 60 seconds</span>
               </h1>

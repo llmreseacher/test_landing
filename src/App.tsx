@@ -207,7 +207,7 @@ const ChatMockup = () => {
                 transition={{ delay: i * 0.3, duration: 0.25 }}
                 className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <div className={`max-w-[82%] px-3 py-2 text-[12px] md:text-[13px] leading-relaxed shadow-sm whitespace-pre-line ${
+                <div className={`max-w-[82%] px-3 py-1.5 text-[11px] md:text-[12px] leading-relaxed shadow-sm whitespace-pre-line ${
                   msg.from === 'user'
                     ? 'bg-[#EEFFDE] text-slate-800 rounded-xl rounded-br-sm'
                     : 'bg-white text-slate-800 rounded-xl rounded-bl-sm'

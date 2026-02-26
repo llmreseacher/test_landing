@@ -683,11 +683,15 @@ const OpenCloudFeatures = () => {
               <h3 className="text-lg font-bold">Research & Summaries</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Monitors competitors, summarizes documents, pulls data from multiple sources, and delivers concise briefs. Your personal research analyst.
+              Summarizes documents, pulls data from multiple sources, and delivers concise briefs.
             </p>
-            <div className="mt-auto pt-4 grid grid-cols-3 gap-2">
-              {[1,2,3].map(i => <div key={i} className="aspect-square bg-slate-50 rounded-xl border border-slate-100"></div>)}
-            </div>
+            <ul className="mt-auto pt-2 space-y-1.5">
+              {['Market analysis', 'Doc summaries', 'Data reports'].map(item => (
+                <li key={item} className="flex items-center gap-2 text-xs font-bold text-slate-400">
+                  <Check className="w-3 h-3 text-emerald-500" /> {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="md:col-span-3 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col space-y-4">
@@ -696,11 +700,15 @@ const OpenCloudFeatures = () => {
               <h3 className="text-lg font-bold">Content & Writing</h3>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Drafts social posts, email newsletters, meeting notes, and reports. Adapts to your brand voice. Repurposes one piece into 5 formats automatically.
+              Drafts social posts, newsletters, meeting notes, and reports. Adapts to your brand voice.
             </p>
-            <div className="mt-auto pt-4 flex justify-center">
-              <FileText className="w-8 h-8 text-slate-200" />
-            </div>
+            <ul className="mt-auto pt-2 space-y-1.5">
+              {['Blog posts', 'Email drafts', 'Meeting notes'].map(item => (
+                <li key={item} className="flex items-center gap-2 text-xs font-bold text-slate-400">
+                  <Check className="w-3 h-3 text-emerald-500" /> {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="sm:col-span-2 md:col-span-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between group gap-4">
@@ -710,7 +718,7 @@ const OpenCloudFeatures = () => {
                 <h3 className="text-xl font-bold">800+ App Connections</h3>
               </div>
               <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
-                Gmail, Slack, Notion, HubSpot, Salesforce, Trello, Google Drive, Calendar — your OpenClaw assistant connects to all the tools you already use. One click, no configuration.
+                Gmail, Slack, Notion, HubSpot, Trello, Google Drive — connects to all your tools. One click, no setup.
               </p>
             </div>
             <div className="flex items-center">

@@ -188,7 +188,7 @@ const ChatMockup = () => {
       {/* Chat area with background image */}
       <div
         className="p-4 h-[300px] md:h-[340px] overflow-hidden"
-        style={{ backgroundImage: 'url(/tg-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ background: 'linear-gradient(135deg, #DBEDBA 0%, #A7CF8C 50%, #8EC97A 100%)' }}
       >
         <AnimatePresence mode="wait">
           <motion.div

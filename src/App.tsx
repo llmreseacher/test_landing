@@ -404,8 +404,8 @@ const ValueProps = () => {
           {/* Left Side: Sticky Content */}
           <div className="lg:w-1/3 lg:sticky lg:top-32 lg:h-fit space-y-8">
             <div className="space-y-4">
-              <h2 className="font-bold text-slate-900 tracking-tight leading-tight">
-                The AI Assistant That Replaces All Tools
+              <h2 className="font-bold text-slate-900 tracking-tight leading-tight text-[24px] sm:text-[30px] md:text-[36px] lg:text-[42px]">
+                The AI Assistant That<br />Replaces All Tools
               </h2>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed">
                 Run your personal OpenClaw AI assistant that connects to your tools, learns how you work, and executes tasks around the clock.

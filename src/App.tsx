@@ -164,7 +164,7 @@ const ChatMockup = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setScenario((prev) => (prev + 1) % scenarios.length);
-    }, 8000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -187,7 +187,7 @@ const ChatMockup = () => {
 
       {/* Chat area with background image */}
       <div
-        className="p-4 h-[300px] md:h-[340px] overflow-hidden"
+        className="p-4 h-[360px] md:h-[400px] overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #DBEDBA 0%, #A7CF8C 50%, #8EC97A 100%)' }}
       >
         <AnimatePresence mode="wait">

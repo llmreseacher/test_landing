@@ -70,7 +70,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-6">
           <button className="text-xs font-bold uppercase tracking-widest text-[#4D4D4D] hover:text-primary transition-colors">Login</button>
           <a href="https://app.llmapi.ai/signup" className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
-            Get Started
+            Join Waitlist
           </a>
         </div>
 
@@ -95,7 +95,7 @@ const Navbar = () => {
               <div className="pt-4 border-t border-slate-200 space-y-3">
                 <button className="w-full text-sm font-bold uppercase tracking-wider text-[#4D4D4D] py-2">Login</button>
                 <a href="https://app.llmapi.ai/signup" className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent block text-center">
-                  Get Started
+                  Join Waitlist
                 </a>
               </div>
             </div>
@@ -264,9 +264,7 @@ const TrustBar = () => {
   const metrics = [
     { value: "1M+", label: "Users" },
     { value: "800+", label: "App Connections" },
-    { value: "WhatsApp & Telegram", label: "" },
     { value: "60s", label: "Setup Time" },
-    { value: "Free Plan", label: "Available" },
   ];
 
   return (
@@ -331,9 +329,9 @@ const ValueProps = () => {
       number: "01",
       tag: "No installs. No code. No tutorials.",
       title: "Ready in 60 Seconds. No Tech Skills Needed.",
-      description: "Sign up, connect WhatsApp or Telegram, and your OpenClaw assistant is ready to work. If you can send a text message, you can use ClawCloud.",
+      description: "Sign up, connect WhatsApp or Telegram, and your OpenClaw assistant is ready to work. If you can send a text message, you can use OpenClaw.",
       icon: Zap,
-      stat: "75% of DIY AI agent setups fail. ClawCloud works the first time, every time.",
+      stat: "75% of DIY AI agent setups fail. OpenClaw works the first time, every time.",
       visual: (
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm w-full">
           <div className="space-y-4">
@@ -360,7 +358,7 @@ const ValueProps = () => {
       title: "Connects to 800+ Apps You Already Use",
       description: "Gmail, Google Calendar, Notion, HubSpot, Salesforce, Trello, Slack, Google Drive — your OpenClaw assistant connects to all of them with one click. No API keys, no configuration, no IT department needed.",
       icon: Layers,
-      stat: "Average professional uses 9+ apps daily. ClawCloud connects them all through one OpenClaw assistant.",
+      stat: "Average professional uses 9+ apps daily. OpenClaw connects them all through one assistant.",
       visual: (
         <div className="grid grid-cols-2 gap-4 w-full">
           {[
@@ -381,7 +379,7 @@ const ValueProps = () => {
       title: "Always On. Always Private. Always Yours.",
       description: "Your OpenClaw assistant runs 24/7 on its own secure server. Your conversations are encrypted. Your data is never shared or used for training. Cancel anytime and export everything with zero lock-in.",
       icon: Shield,
-      stat: "74% of professionals worry about AI security. ClawCloud runs on isolated, encrypted infrastructure.",
+      stat: "74% of professionals worry about AI security. OpenClaw runs on isolated, encrypted infrastructure.",
       visual: (
         <div className="grid grid-cols-2 gap-4 w-full">
           {[
@@ -407,16 +405,16 @@ const ValueProps = () => {
           <div className="lg:w-1/3 lg:sticky lg:top-32 lg:h-fit space-y-8">
             <div className="space-y-4">
               <h2 className="font-bold text-slate-900 tracking-tight leading-tight">
-                Why Thousands of Professionals Trust ClawCloud
+                The AI Assistant That Replaces All Tools
               </h2>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed">
-                Not another chatbot. ClawCloud runs your personal OpenClaw AI assistant that connects to your tools, learns how you work, and executes tasks around the clock.
+                Run your personal OpenClaw AI assistant that connects to your tools, learns how you work, and executes tasks around the clock.
               </p>
             </div>
             
             <div className="pt-4">
               <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
-                Get Started Free
+                Join Waitlist
               </a>
             </div>
           </div>
@@ -466,7 +464,7 @@ const ValueProps = () => {
 // --- Mock-up Visuals for HowItWorks ---
 
 const ServiceSelectorMock = () => (
-  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full max-w-[280px]">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full">
     <div className="p-3 border-bottom border-slate-100 bg-slate-50/50 flex items-center gap-2">
       <Plus className="w-3 h-3 text-slate-400" />
       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">New service</span>
@@ -495,7 +493,7 @@ const ServiceSelectorMock = () => (
 );
 
 const DeployConfigMock = () => (
-  <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-4 w-full max-w-[280px] space-y-4">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-4 w-full space-y-4">
     <div className="space-y-1.5">
       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Branch</div>
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2">
@@ -524,7 +522,7 @@ const DeployConfigMock = () => (
 );
 
 const DeployStatusMock = () => (
-  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full max-w-[280px]">
+  <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden w-full">
     <div className="p-3 border-b border-slate-100 bg-slate-50/50">
       <div className="flex items-center gap-2">
         <Server className="w-3 h-3 text-slate-400" />
@@ -566,21 +564,21 @@ const HowItWorks = () => {
             {
               step: 1,
               title: "Sign Up & Connect Your Apps",
-              desc: "Create your free account in 10 seconds. Connect WhatsApp or Telegram with one tap. Then connect the apps you use: Gmail, Calendar, Notion, Slack, HubSpot — all one-click OAuth, no passwords to share.",
+              desc: "Create your free account in 60 seconds. Connect WhatsApp or Telegram with one tap. Then connect the apps you use: Gmail, Calendar, Notion, Slack, HubSpot.",
               visual: <ServiceSelectorMock />,
               icon: Sparkles
             },
             {
               step: 2,
               title: "Tell It What To Do",
-              desc: "Just text your OpenClaw assistant like you'd text a colleague. \"Check my email every morning and flag anything urgent.\" \"Summarize my meeting notes and send action items to the team.\" It understands natural language — no commands or syntax.",
+              desc: "Just text your OpenClaw assistant like you'd text a colleague. \"Check my email every morning and flag anything urgent.\" It understands natural language — no commands or syntax.",
               visual: <DeployConfigMock />,
               icon: MessageSquare
             },
             {
               step: 3,
               title: "It Gets to Work",
-              desc: "Your OpenClaw assistant starts executing immediately. It checks your email, updates your calendar, drafts responses, pulls reports, and sends you summaries — all while you focus on the work that actually matters.",
+              desc: "Your OpenClaw assistant starts executing immediately. It checks your email, updates your calendar, drafts responses, pulls reports, and sends you summaries.",
               visual: <DeployStatusMock />,
               icon: Activity
             }
@@ -605,7 +603,7 @@ const HowItWorks = () => {
 
         <div className="mt-12 md:mt-24 text-center">
           <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
-            Try Free — Your OpenClaw Assistant in 60 Seconds
+            Join Waitlist
           </a>
         </div>
       </div>
@@ -744,7 +742,7 @@ const Pricing = () => {
               price: "$0",
               desc: "Try your OpenClaw assistant, no commitment",
               features: ["1 OpenClaw assistant", "150 tasks included", "WhatsApp & Telegram", "Gmail, Calendar, Slack connections", "Powered by top AI (Claude, GPT, Gemini)", "Community support"],
-              cta: "Get Started Free",
+              cta: "Join Waitlist",
               highlight: false
             },
             {
@@ -752,7 +750,7 @@ const Pricing = () => {
               price: "$29",
               desc: "For professionals who want to 10x their output",
               features: ["Everything in Free", "Unlimited tasks", "Multiple OpenClaw assistants", "All 800+ app connections", "Email management & auto-replies", "Weekly automated reports", "Priority support", "Always-on (24/7)"],
-              cta: "Start with Pro",
+              cta: "Join Waitlist",
               highlight: true
             },
             {
@@ -760,7 +758,7 @@ const Pricing = () => {
               price: "$99",
               desc: "For teams that want AI-powered operations",
               features: ["Everything in Pro", "Unlimited OpenClaw assistants", "Team collaboration & shared assistants", "Custom workflows", "Advanced analytics & insights", "Priority support + SLA"],
-              cta: "Start with Team",
+              cta: "Join Waitlist",
               highlight: false
             },
             {
@@ -768,7 +766,7 @@ const Pricing = () => {
               price: "Custom",
               desc: "For organizations with security and scale requirements",
               features: ["Everything in Team", "SSO, audit logs, compliance", "Custom integrations", "Dedicated account manager", "On-premise options", "Custom SLA"],
-              cta: "Contact Sales",
+              cta: "Join Waitlist",
               highlight: false
             }
           ].map((plan, i) => (
@@ -841,16 +839,12 @@ const FAQItem = ({ q, a }: { q: string; a: string; key?: React.Key }) => {
 const FAQ = () => {
   const faqs = [
     {
-      q: "What is ClawCloud?",
-      a: "ClawCloud is a platform that runs OpenClaw, an AI assistant that handles your emails, calendar, tasks, and more through WhatsApp, Telegram, or Slack. Think of it as a smart team member that works 24/7, connects to 800+ apps, and costs a fraction of a human assistant."
-    },
-    {
       q: "What is OpenClaw?",
-      a: "OpenClaw is an open-source AI agent trusted by over 1 million users worldwide. It's the engine behind your ClawCloud assistant, which means you get a proven, transparent technology with no vendor lock-in."
+      a: "OpenClaw is an AI assistant platform that handles your emails, calendar, tasks, and more through WhatsApp, Telegram, or Slack. Think of it as a smart team member that works 24/7, connects to 800+ apps, and costs a fraction of a human assistant."
     },
     {
       q: "Do I need any technical skills?",
-      a: "None at all. If you can send a text message, you can use ClawCloud. No code, no installs, no setup. Sign up, connect WhatsApp, and start texting your OpenClaw assistant. It's live in 60 seconds."
+      a: "None at all. If you can send a text message, you can use OpenClaw. No code, no installs, no setup. Sign up, connect WhatsApp, and start texting your OpenClaw assistant. It's live in 60 seconds."
     },
     {
       q: "What can the OpenClaw assistant actually do?",
@@ -883,7 +877,7 @@ const FAQ = () => {
       <div className="container mx-auto px-6 lg:px-12 xl:px-20">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-slate-500">Everything you need to know about ClawCloud and OpenClaw.</p>
+          <p className="text-slate-500">Everything you need to know about OpenClaw.</p>
         </div>
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, i) => (
@@ -920,16 +914,16 @@ export default function App() {
                 <Sparkles className="w-4 h-4" />
                 OpenClaw AI Assistant Platform
               </div>
-              <h1 className="text-slate-900">
-                Your OpenClaw Assistant That<br />
-                <span className="text-primary">Actually Gets Work Done</span>
+              <h1 className="text-slate-900 text-[28px] sm:text-[36px] md:text-[44px] leading-[1.12]">
+                OpenClaw AI Agent in Cloud<br />
+                <span className="text-primary">in 60 seconds</span>
               </h1>
               <p className="text-base md:text-xl text-[#4D4D4D] max-w-lg leading-relaxed">
-                ClawCloud gives you a personal OpenClaw AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back through WhatsApp, Telegram, or Slack. No setup, no coding, no tech skills. Ready in 60 seconds.
+                OpenClaw AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back through WhatsApp, Telegram, or Slack. No setup, ready in 60 seconds.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
-                  Try Free — No Credit Card
+                  Join Waitlist
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <a href="#how-it-works" className="bg-slate-50 text-slate-900 px-7 py-3 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all border border-slate-200 flex items-center justify-center gap-2">
@@ -967,11 +961,11 @@ export default function App() {
         <div className="container mx-auto px-6 lg:px-12 xl:px-20 text-center relative z-10">
           <h2 className="text-white mb-4">Ready to Get Your Time Back?</h2>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-2">
-            Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant on ClawCloud.
+            Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant.
           </p>
           <p className="text-sm text-slate-500 mb-8 md:mb-12">No credit card. No setup. No tech skills. Just results.</p>
           <a href="https://app.llmapi.ai/signup" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
-            Try Free — 60 Seconds to Your OpenClaw Assistant
+            Join Waitlist
           </a>
         </div>
       </section>

@@ -136,9 +136,9 @@ const ChatMockup = () => {
       label: "Calendar & Scheduling",
       messages: [
         { from: "user", text: "Hey, what's on my calendar today?", time: "10:21" },
-        { from: "ai", text: "You have 3 meetings today:\n\n1. Sarah — 10am, Q1 budget review\n2. Design team sync — 12pm\n3. Tom — 2pm, partnership call\n\nWant me to prepare a summary of last quarter's numbers for the budget review?", time: "10:21" },
-        { from: "user", text: "Yes, and reschedule the 2pm call with Tom to Thursday", time: "10:22" },
-        { from: "ai", text: "Done ✓ Moved your call with Tom to Thursday 2pm. He's been notified and confirmed the new time. Your Q1 summary is ready — key highlights sent to your email. Revenue up 14% vs last quarter.", time: "10:22" },
+        { from: "ai", text: "You have 3 meetings:\n1. Sarah — 10am, Q1 budget review\n2. Design sync — 12pm\n3. Tom — 2pm, partnership call\n\nPrepare a Q1 summary for the budget review?", time: "10:21" },
+        { from: "user", text: "Yes, and move the 2pm call with Tom to Thursday", time: "10:22" },
+        { from: "ai", text: "Done ✓ Tom's call moved to Thursday 2pm, he's confirmed. Q1 summary sent to your email — revenue up 14% vs last quarter.", time: "10:22" },
       ]
     },
     {
@@ -187,7 +187,7 @@ const ChatMockup = () => {
 
       {/* Chat area with background image */}
       <div
-        className="p-4 h-[360px] md:h-[400px] overflow-hidden"
+        className="p-4 h-[280px] md:h-[310px] overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #DBEDBA 0%, #A7CF8C 50%, #8EC97A 100%)' }}
       >
         <AnimatePresence mode="wait">

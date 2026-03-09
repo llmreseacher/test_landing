@@ -973,7 +973,6 @@ export default function App() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <img src="/logo-light.png" alt="LLM.API" className="h-10" />
-                <span className="font-heading font-bold text-xl tracking-tight text-white">LLM.API</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">
                 Your OpenClaw assistant that handles emails, calendar, tasks, and more — through WhatsApp, Telegram, or Slack.

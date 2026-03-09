@@ -398,7 +398,7 @@ const ValueProps = () => {
 
   return (
     <section id="features" ref={containerRef} className="py-12 md:py-16 bg-slate-50">
-      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+      <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-24">
 
           {/* Left Side: Sticky Content */}
@@ -553,7 +553,7 @@ const DeployStatusMock = () => (
 const HowItWorks = () => {
   return (
     <section id="how-it-works" className="py-12 md:py-16 bg-white">
-      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+      <div className="container mx-auto px-6">
         <div className="mb-10 md:mb-20">
           <h2 className="font-bold text-slate-900 tracking-tight">Click, Click, Done.</h2>
           <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">Your OpenClaw assistant is live in 3 steps. No coding. No waiting. No IT department.</p>
@@ -615,7 +615,7 @@ const HowItWorks = () => {
 const OpenCloudFeatures = () => {
   return (
     <section className="py-12 md:py-16 bg-slate-50">
-      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+      <div className="container mx-auto px-6">
         <div className="mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 tracking-tight">One OpenClaw Assistant. Everything Handled.</h2>
           <p className="text-slate-600 text-base md:text-lg leading-relaxed mt-4 max-w-2xl">From emails to reports, from scheduling to research — your OpenClaw assistant handles the busywork across all your tools.</p>
@@ -725,7 +725,7 @@ const OpenCloudFeatures = () => {
 const Pricing = () => {
   return (
     <section id="pricing" className="py-12 md:py-16 stripe-gradient">
-      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Start Free. Upgrade When You're Ready.</h2>
           <p className="text-slate-500 text-base md:text-lg">No credit card. No commitment. Your OpenClaw assistant is live in 60 seconds.</p>
@@ -870,7 +870,7 @@ const FAQ = () => {
 
   return (
     <section className="py-12 md:py-16 bg-white">
-      <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-10 md:mb-16">
           <h2 className="font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
           <p className="text-slate-500">Everything you need to know about OpenClaw.</p>
@@ -898,7 +898,7 @@ export default function App() {
           <div className="absolute top-1/2 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+        <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -954,7 +954,7 @@ export default function App() {
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
         </div>
-        <div className="container mx-auto px-6 lg:px-12 xl:px-20 text-center relative z-10">
+        <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-white mb-4">Ready to Get Your Time Back?</h2>
           <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-2">
             Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant.
@@ -968,7 +968,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-10 md:py-16 bg-[#1a1a1a] text-white">
-        <div className="container mx-auto px-6 lg:px-12 xl:px-20">
+        <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-10 md:mb-16">
             <div className="space-y-4">
               <div className="flex items-center gap-3">

@@ -156,7 +156,7 @@ const ChatMockup = () => {
         { from: "user", text: "Every Monday morning, send me a summary of last week's sales from HubSpot", time: "09:14" },
         { from: "ai", text: "Got it ✓ I'll pull your HubSpot weekly sales data every Monday at 8am and send you a summary here. Want me to include a comparison with the previous week?", time: "09:14" },
         { from: "user", text: "Yes, and also post it to the #sales Slack channel", time: "09:15" },
-        { from: "ai", text: "Done ✓ Recurring task set:\n• Every Monday 8am\n• HubSpot sales summary + week-over-week comparison\n• Sent here + #sales on Slack\n\nFirst report arrives next Monday.", time: "09:15" },
+        { from: "ai", text: "Done ✓ Recurring task set:\n• Every Monday 8am\n• HubSpot sales summary + week-over-week comparison\n• Sent here + #sales on Slack", time: "09:15" },
       ]
     }
   ];

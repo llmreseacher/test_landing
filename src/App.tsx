@@ -102,7 +102,7 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-[100] overflow-y-auto"
     >
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#1a1145] to-slate-900 flex flex-col">
+      <div className="min-h-screen bg-black/60 backdrop-blur-xl flex flex-col">
         {/* Top bar */}
         <div className="flex items-center justify-between px-6 md:px-12 py-5">
           <img src="/logo-light.png" alt="LLM.API" className="h-8 opacity-80" />

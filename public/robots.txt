@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://openclaw.ai/sitemap.xml
+Sitemap: https://usereloai.com/sitemap.xml

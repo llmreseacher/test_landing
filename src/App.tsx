@@ -71,31 +71,57 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     return match ? match[1] : undefined;
   };
 
+  // Track page view when modal opens so HubSpot knows the conversion page
+  useEffect(() => {
+    if (open) {
+      const w = window as unknown as Record<string, unknown>;
+      const _hsq = (w._hsq as unknown[][]) || [];
+      w._hsq = _hsq;
+      _hsq.push(['trackPageView']);
+    }
+  }, [open]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
     try {
+      // Identify contact via HubSpot tracking (helps link even without cookie)
+      const w = window as unknown as Record<string, unknown>;
+      const _hsq = (w._hsq as unknown[][]) || [];
+      w._hsq = _hsq;
+      _hsq.push(['identify', { email: form.email }]);
+      _hsq.push(['trackPageView']);
+
       const hutk = getHutk();
+      // Only include fields that have values
+      const fields: { name: string; value: string }[] = [
+        { name: 'firstname', value: form.firstName },
+        { name: 'lastname', value: form.lastName },
+        { name: 'email', value: form.email },
+      ];
+      if (form.useCase) fields.push({ name: 'use_case', value: form.useCase });
+      if (form.role) fields.push({ name: 'jobtitle', value: form.role });
+      if (form.models.length > 0) fields.push({ name: 'models', value: form.models.join(';') });
+
       const payload: Record<string, unknown> = {
-        fields: [
-          { name: 'firstname', value: form.firstName },
-          { name: 'lastname', value: form.lastName },
-          { name: 'email', value: form.email },
-          { name: 'use_case', value: form.useCase },
-          { name: 'jobtitle', value: form.role },
-          { name: 'models', value: form.models.join(';') },
-        ],
+        fields,
         context: {
           pageUri: window.location.href,
           pageName: document.title,
           ...(hutk ? { hutk } : {}),
         },
       };
-      await fetch('https://api.hsforms.com/submissions/v3/integration/submit/41836896/6ab84485-2e42-4b43-8e82-5e1931738527', {
+      const res = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/41836896/6ab84485-2e42-4b43-8e82-5e1931738527', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        console.error('HubSpot submission error:', err);
+        setStatus('error');
+        return;
+      }
       setStatus('sent');
     } catch { setStatus('error'); }
   };

@@ -93,15 +93,14 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       _hsq.push(['trackPageView']);
 
       const hutk = getHutk();
-      // Only include fields that have values
-      const fields: { name: string; value: string }[] = [
+      const fields = [
         { name: 'firstname', value: form.firstName },
         { name: 'lastname', value: form.lastName },
         { name: 'email', value: form.email },
+        { name: 'use_case', value: form.useCase },
+        { name: 'role', value: form.role },
+        { name: 'models', value: form.models.join(';') },
       ];
-      if (form.useCase) fields.push({ name: 'use_case', value: form.useCase });
-      if (form.role) fields.push({ name: 'jobtitle', value: form.role });
-      if (form.models.length > 0) fields.push({ name: 'models', value: form.models.join(';') });
 
       const payload: Record<string, unknown> = {
         fields,

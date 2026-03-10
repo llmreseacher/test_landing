@@ -49,30 +49,10 @@ import {
   X
 } from 'lucide-react';
 
-// --- HubSpot Form Modal ---
-const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const formRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (open && formRef.current) {
-      formRef.current.innerHTML = '';
-      if ((window as any).hbspt?.forms?.create) {
-        (window as any).hbspt.forms.create({
-          region: 'na1',
-          portalId: '41836896',
-          formId: '6ab84485-2e42-4b43-8e82-5e1931738527',
-          target: formRef.current,
-        });
-      } else {
-        const div = document.createElement('div');
-        div.className = 'hs-form-frame';
-        div.setAttribute('data-region', 'na1');
-        div.setAttribute('data-form-id', '6ab84485-2e42-4b43-8e82-5e1931738527');
-        div.setAttribute('data-portal-id', '41836896');
-        formRef.current.appendChild(div);
-      }
-    }
-  }, [open]);
+// --- Waitlist Form Modal ---
+const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', useCase: '', role: '', models: [] as string[] });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   useEffect(() => {
     if (open) document.body.style.overflow = 'hidden';
@@ -80,7 +60,39 @@ const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void })
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
+  useEffect(() => {
+    if (open) { setForm({ firstName: '', lastName: '', email: '', useCase: '', role: '', models: [] }); setStatus('idle'); }
+  }, [open]);
+
+  const toggleModel = (m: string) => setForm(f => ({ ...f, models: f.models.includes(m) ? f.models.filter(x => x !== m) : [...f.models, m] }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+    try {
+      await fetch('https://api.hsforms.com/submissions/v3/integration/submit/41836896/6ab84485-2e42-4b43-8e82-5e1931738527', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: [
+            { name: 'firstname', value: form.firstName },
+            { name: 'lastname', value: form.lastName },
+            { name: 'email', value: form.email },
+            { name: 'use_case', value: form.useCase },
+            { name: 'role', value: form.role },
+            { name: 'models', value: form.models.join(';') },
+          ],
+        }),
+      });
+      setStatus('sent');
+    } catch { setStatus('error'); }
+  };
+
   if (!open) return null;
+
+  const inputClass = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 focus:bg-white";
+  const labelClass = "block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5";
+  const models = ['Claude', 'OpenAI', 'MiniMax 2.5', 'DeepSeek', 'Other'];
 
   return (
     <motion.div
@@ -90,7 +102,6 @@ const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void })
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-[100] overflow-y-auto"
     >
-      {/* Full-page background */}
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#1a1145] to-slate-900 flex flex-col">
         {/* Top bar */}
         <div className="flex items-center justify-between px-6 md:px-12 py-5">
@@ -118,9 +129,87 @@ const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void })
               </p>
             </div>
 
-            {/* Form card */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20 hs-form-wrapper">
-              <div ref={formRef} />
+            {/* Form */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20">
+              {status === 'sent' ? (
+                <div className="text-center py-8">
+                  <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="w-7 h-7 text-emerald-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">You're on the list!</h3>
+                  <p className="text-slate-500 text-sm">We'll reach out when your spot is ready.</p>
+                  <button onClick={onClose} className="mt-6 text-sm font-bold text-primary hover:underline">Back to site</button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Name row */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass}>First Name</label>
+                      <input type="text" value={form.firstName} onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} placeholder="Jane" className={inputClass} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Last Name</label>
+                      <input type="text" value={form.lastName} onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))} placeholder="Smith" className={inputClass} />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className={labelClass}>Email <span className="text-primary">*</span></label>
+                    <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="jane@company.com" className={inputClass} />
+                  </div>
+
+                  {/* Dropdowns row */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass}>Use case</label>
+                      <select value={form.useCase} onChange={e => setForm(f => ({ ...f, useCase: e.target.value }))} className={inputClass + " appearance-none cursor-pointer"}>
+                        <option value="">Select...</option>
+                        <option value="personal">Personal use</option>
+                        <option value="startup">Startup</option>
+                        <option value="enterprise">Enterprise</option>
+                        <option value="agency">Agency</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelClass}>Your role</label>
+                      <select value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))} className={inputClass + " appearance-none cursor-pointer"}>
+                        <option value="">Select...</option>
+                        <option value="founder">Founder / CEO</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="product">Product</option>
+                        <option value="operations">Operations</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Models */}
+                  <div>
+                    <label className={labelClass}>Which models interest you?</label>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {models.map(m => (
+                        <button key={m} type="button" onClick={() => toggleModel(m)}
+                          className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-all ${form.models.includes(m) ? 'bg-primary text-white border-primary' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300'}`}>
+                          {m}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Submit */}
+                  <button type="submit" disabled={status === 'sending'}
+                    className="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-base hover:bg-accent transition-all shadow-lg shadow-primary/20 disabled:opacity-60 flex items-center justify-center gap-2">
+                    {status === 'sending' ? 'Submitting...' : 'Join Waitlist'}
+                    {status !== 'sending' && <ArrowRight className="w-4 h-4" />}
+                  </button>
+
+                  {status === 'error' && <p className="text-red-500 text-sm text-center">Something went wrong. Please try again.</p>}
+                </form>
+              )}
             </div>
 
             <p className="text-center text-slate-500 text-xs mt-4">
@@ -987,7 +1076,7 @@ export default function App() {
     <div className="min-h-screen bg-white selection:bg-primary/20 selection:text-primary">
       <Navbar onJoin={openForm} />
       <AnimatePresence>
-        {formOpen && <HubSpotModal open={formOpen} onClose={() => setFormOpen(false)} />}
+        {formOpen && <WaitlistModal open={formOpen} onClose={() => setFormOpen(false)} />}
       </AnimatePresence>
 
       {/* Hero Section */}

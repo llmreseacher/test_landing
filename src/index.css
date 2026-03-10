@@ -58,3 +58,118 @@
 .glass-card {
   @apply bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm;
 }
+
+/* HubSpot Form Overrides */
+.hs-form-wrapper .hs-form {
+  font-family: "Rethink Sans", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.hs-form-wrapper .hs-form label {
+  font-family: "Space Grotesk", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin-bottom: 4px !important;
+}
+
+.hs-form-wrapper .hs-form .hs-input,
+.hs-form-wrapper .hs-form select,
+.hs-form-wrapper .hs-form input[type="text"],
+.hs-form-wrapper .hs-form input[type="email"] {
+  width: 100% !important;
+  padding: 10px 14px !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  color: #0f172a !important;
+  background: #f8fafc !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  font-family: "Rethink Sans", sans-serif !important;
+  outline: none !important;
+}
+
+.hs-form-wrapper .hs-form .hs-input:focus,
+.hs-form-wrapper .hs-form select:focus,
+.hs-form-wrapper .hs-form input:focus {
+  border-color: #3F35FF !important;
+  box-shadow: 0 0 0 3px rgba(63, 53, 255, 0.1) !important;
+  background: #fff !important;
+}
+
+.hs-form-wrapper .hs-form .hs-button,
+.hs-form-wrapper .hs-form input[type="submit"] {
+  width: 100% !important;
+  padding: 12px 24px !important;
+  background: #3F35FF !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-family: "Space Grotesk", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: background 0.2s, transform 0.1s !important;
+  margin-top: 8px !important;
+}
+
+.hs-form-wrapper .hs-form .hs-button:hover,
+.hs-form-wrapper .hs-form input[type="submit"]:hover {
+  background: #332bcc !important;
+  transform: translateY(-1px) !important;
+}
+
+.hs-form-wrapper .hs-form .hs-button:active,
+.hs-form-wrapper .hs-form input[type="submit"]:active {
+  transform: translateY(0) !important;
+}
+
+.hs-form-wrapper .hs-form .hs-error-msg {
+  color: #ef4444 !important;
+  font-size: 12px !important;
+  margin-top: 4px !important;
+}
+
+.hs-form-wrapper .hs-form .hs-form-required {
+  color: #3F35FF !important;
+}
+
+.hs-form-wrapper .hs-form fieldset {
+  max-width: 100% !important;
+}
+
+.hs-form-wrapper .hs-form .input {
+  margin-right: 0 !important;
+}
+
+.hs-form-wrapper .hs-form .hs-form-field {
+  margin-bottom: 16px !important;
+}
+
+.hs-form-wrapper .hs-form .inputs-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.hs-form-wrapper .hs-form .hs-form-checkbox-display {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 0 !important;
+  font-size: 14px !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+}
+
+.hs-form-wrapper .hs-form .hs-form-checkbox-display input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: #3F35FF !important;
+}
+
+.hs-form-wrapper .hs-form .hs-richtext {
+  font-size: 14px !important;
+  color: #64748b !important;
+  margin-bottom: 16px !important;
+  line-height: 1.5 !important;
+}

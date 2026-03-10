@@ -56,13 +56,6 @@ const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void })
   useEffect(() => {
     if (open && formRef.current) {
       formRef.current.innerHTML = '';
-      const div = document.createElement('div');
-      div.className = 'hs-form-frame';
-      div.setAttribute('data-region', 'na1');
-      div.setAttribute('data-form-id', '6ab84485-2e42-4b43-8e82-5e1931738527');
-      div.setAttribute('data-portal-id', '41836896');
-      formRef.current.appendChild(div);
-      // Re-trigger HubSpot embed
       if ((window as any).hbspt?.forms?.create) {
         (window as any).hbspt.forms.create({
           region: 'na1',
@@ -70,30 +63,73 @@ const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void })
           formId: '6ab84485-2e42-4b43-8e82-5e1931738527',
           target: formRef.current,
         });
+      } else {
+        const div = document.createElement('div');
+        div.className = 'hs-form-frame';
+        div.setAttribute('data-region', 'na1');
+        div.setAttribute('data-form-id', '6ab84485-2e42-4b43-8e82-5e1931738527');
+        div.setAttribute('data-portal-id', '41836896');
+        formRef.current.appendChild(div);
       }
     }
+  }, [open]);
+
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.2 }}
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 md:p-8 z-10"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
-          <X className="w-5 h-5" />
-        </button>
-        <h3 className="text-xl font-bold text-slate-900 mb-4">Join the Waitlist</h3>
-        <div ref={formRef} />
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[100] overflow-y-auto"
+    >
+      {/* Full-page background */}
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#1a1145] to-slate-900 flex flex-col">
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-6 md:px-12 py-5">
+          <img src="/logo-light.png" alt="LLM.API" className="h-8 opacity-80" />
+          <button onClick={onClose} className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+            <X className="w-5 h-5" />
+            Close
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 flex items-center justify-center px-6 py-8">
+          <div className="w-full max-w-xl">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                <Sparkles className="w-3.5 h-3.5" />
+                Early Access
+              </div>
+              <h2 className="text-white text-2xl md:text-3xl lg:text-4xl leading-tight mb-3">
+                Join the Waitlist
+              </h2>
+              <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto">
+                Get early access to your OpenClaw AI assistant. Be the first to automate your workflow.
+              </p>
+            </div>
+
+            {/* Form card */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20 hs-form-wrapper">
+              <div ref={formRef} />
+            </div>
+
+            <p className="text-center text-slate-500 text-xs mt-4">
+              No spam. No credit card required.
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

@@ -45,12 +45,61 @@ import {
   CloudUpload,
   Settings,
   GitBranch,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
+
+// --- HubSpot Form Modal ---
+const HubSpotModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open && formRef.current) {
+      formRef.current.innerHTML = '';
+      const div = document.createElement('div');
+      div.className = 'hs-form-frame';
+      div.setAttribute('data-region', 'na1');
+      div.setAttribute('data-form-id', '6ab84485-2e42-4b43-8e82-5e1931738527');
+      div.setAttribute('data-portal-id', '41836896');
+      formRef.current.appendChild(div);
+      // Re-trigger HubSpot embed
+      if ((window as any).hbspt?.forms?.create) {
+        (window as any).hbspt.forms.create({
+          region: 'na1',
+          portalId: '41836896',
+          formId: '6ab84485-2e42-4b43-8e82-5e1931738527',
+          target: formRef.current,
+        });
+      }
+    }
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 md:p-8 z-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+          <X className="w-5 h-5" />
+        </button>
+        <h3 className="text-xl font-bold text-slate-900 mb-4">Join the Waitlist</h3>
+        <div ref={formRef} />
+      </motion.div>
+    </div>
+  );
+};
 
 // --- Components ---
 
-const Navbar = () => {
+const Navbar = ({ onJoin }: { onJoin: () => void }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -69,9 +118,9 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center gap-6">
           <button className="text-xs font-bold uppercase tracking-widest text-[#4D4D4D] hover:text-primary transition-colors">Login</button>
-          <a href="https://app.llmapi.ai/signup" className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
+          <button onClick={onJoin} className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
             Join Waitlist
-          </a>
+          </button>
         </div>
 
         <button className="lg:hidden p-2 text-slate-600" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -94,9 +143,9 @@ const Navbar = () => {
               <a href="#features" onClick={() => setMobileOpen(false)} className="block text-sm font-bold uppercase tracking-wider text-[#4D4D4D] hover:text-primary py-2">Docs</a>
               <div className="pt-4 border-t border-slate-200 space-y-3">
                 <button className="w-full text-sm font-bold uppercase tracking-wider text-[#4D4D4D] py-2">Login</button>
-                <a href="https://app.llmapi.ai/signup" className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent block text-center">
+                <button onClick={() => { setMobileOpen(false); onJoin(); }} className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent block text-center">
                   Join Waitlist
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>
@@ -413,9 +462,9 @@ const ValueProps = () => {
             </div>
             
             <div className="pt-4">
-              <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
+              <button onClick={openWaitlistForm} className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
                 Join Waitlist
-              </a>
+              </button>
             </div>
           </div>
 
@@ -602,9 +651,9 @@ const HowItWorks = () => {
         </div>
 
         <div className="mt-12 md:mt-24 text-center">
-          <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
+          <button onClick={openWaitlistForm} className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
             Join Waitlist
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -787,9 +836,9 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-              <a href="https://app.llmapi.ai/signup" className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
+              <button onClick={openWaitlistForm} className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
                 {plan.cta}
-              </a>
+              </button>
             </div>
           ))}
         </div>
@@ -885,10 +934,25 @@ const FAQ = () => {
   );
 };
 
+const openWaitlistForm = () => window.dispatchEvent(new CustomEvent('open-waitlist'));
+
 export default function App() {
+  const [formOpen, setFormOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setFormOpen(true);
+    window.addEventListener('open-waitlist', handler);
+    return () => window.removeEventListener('open-waitlist', handler);
+  }, []);
+
+  const openForm = () => setFormOpen(true);
+
   return (
     <div className="min-h-screen bg-white selection:bg-primary/20 selection:text-primary">
-      <Navbar />
+      <Navbar onJoin={openForm} />
+      <AnimatePresence>
+        {formOpen && <HubSpotModal open={formOpen} onClose={() => setFormOpen(false)} />}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="pt-24 pb-8 md:pt-32 md:pb-12 overflow-hidden relative">
@@ -918,10 +982,10 @@ export default function App() {
                 OpenClaw AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back through WhatsApp, Telegram, or Slack. No setup, ready in 60 seconds.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="https://app.llmapi.ai/signup" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
+                <button onClick={openWaitlistForm} className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
                   Join Waitlist
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </button>
                 <a href="#how-it-works" className="bg-slate-50 text-slate-900 px-7 py-3 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all border border-slate-200 flex items-center justify-center gap-2">
                   See How It Works
                 </a>
@@ -960,9 +1024,9 @@ export default function App() {
             Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant.
           </p>
           <p className="text-sm text-slate-500 mb-8 md:mb-12">No credit card. No setup. No tech skills. Just results.</p>
-          <a href="https://app.llmapi.ai/signup" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
+          <button onClick={openWaitlistForm} className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
             Join Waitlist
-          </a>
+          </button>
         </div>
       </section>
 

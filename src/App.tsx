@@ -100,11 +100,11 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[100] overflow-y-auto"
+      className="fixed inset-0 z-[100] overflow-hidden"
     >
-      <div className="min-h-screen bg-black/60 backdrop-blur-xl flex flex-col">
+      <div className="h-full bg-black/60 backdrop-blur-xl flex flex-col">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-6 md:px-12 py-5">
+        <div className="flex items-center justify-between px-6 md:px-12 py-4 shrink-0">
           <img src="/logo-light.png" alt="LLM.API" className="h-8 opacity-80" />
           <button onClick={onClose} className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
             <X className="w-5 h-5" />
@@ -113,18 +113,18 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex items-center justify-center px-6 py-8">
+        <div className="flex-1 flex items-center justify-center px-6">
           <div className="w-full max-w-xl">
             {/* Header */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+            <div className="text-center mb-5">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
                 Early Access
               </div>
-              <h2 className="text-white text-2xl md:text-3xl lg:text-4xl leading-tight mb-3">
+              <h2 className="text-white text-xl md:text-2xl lg:text-3xl leading-tight mb-2">
                 Join the Waitlist
               </h2>
-              <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto">
+              <p className="text-slate-400 text-xs md:text-sm max-w-md mx-auto">
                 Get early access to your OpenClaw AI assistant. Be the first to automate your workflow.
               </p>
             </div>

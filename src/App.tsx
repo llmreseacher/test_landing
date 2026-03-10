@@ -121,6 +121,13 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         setStatus('error');
         return;
       }
+      // Fire events so GTM & HubSpot tracking see the conversion
+      const dl = (w.dataLayer as unknown[][]) || [];
+      w.dataLayer = dl;
+      dl.push({ event: 'waitlist_form_submitted', email: form.email } as unknown as unknown[]);
+
+      _hsq.push(['trackCustomBehavioralEvent', { name: 'pe41836896_waitlist_form_submitted', properties: { email: form.email } }]);
+
       setStatus('sent');
     } catch { setStatus('error'); }
   };

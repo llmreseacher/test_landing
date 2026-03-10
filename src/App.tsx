@@ -66,23 +66,35 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
 
   const toggleModel = (m: string) => setForm(f => ({ ...f, models: f.models.includes(m) ? f.models.filter(x => x !== m) : [...f.models, m] }));
 
+  const getHutk = () => {
+    const match = document.cookie.match(/hubspotutk=([^;]+)/);
+    return match ? match[1] : undefined;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
     try {
+      const hutk = getHutk();
+      const payload: Record<string, unknown> = {
+        fields: [
+          { name: 'firstname', value: form.firstName },
+          { name: 'lastname', value: form.lastName },
+          { name: 'email', value: form.email },
+          { name: 'use_case', value: form.useCase },
+          { name: 'jobtitle', value: form.role },
+          { name: 'models', value: form.models.join(';') },
+        ],
+        context: {
+          pageUri: window.location.href,
+          pageName: document.title,
+          ...(hutk ? { hutk } : {}),
+        },
+      };
       await fetch('https://api.hsforms.com/submissions/v3/integration/submit/41836896/6ab84485-2e42-4b43-8e82-5e1931738527', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fields: [
-            { name: 'firstname', value: form.firstName },
-            { name: 'lastname', value: form.lastName },
-            { name: 'email', value: form.email },
-            { name: 'use_case', value: form.useCase },
-            { name: 'role', value: form.role },
-            { name: 'models', value: form.models.join(';') },
-          ],
-        }),
+        body: JSON.stringify(payload),
       });
       setStatus('sent');
     } catch { setStatus('error'); }

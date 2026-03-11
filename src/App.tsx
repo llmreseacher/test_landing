@@ -939,64 +939,133 @@ const OpenCloudFeatures = () => {
   );
 };
 
+// --- Countdown Timer ---
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+
+  useEffect(() => {
+    // Set deadline to 7 days from first visit (stored in localStorage)
+    let deadline = localStorage.getItem('oc_promo_deadline');
+    if (!deadline) {
+      const d = new Date();
+      d.setDate(d.getDate() + 7);
+      deadline = d.toISOString();
+      localStorage.setItem('oc_promo_deadline', deadline);
+    }
+    const end = new Date(deadline).getTime();
+
+    const tick = () => {
+      const now = Date.now();
+      const diff = Math.max(0, end - now);
+      setTimeLeft({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff % 86400000) / 3600000),
+        mins: Math.floor((diff % 3600000) / 60000),
+        secs: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  return (
+    <div className="flex items-center justify-center gap-3 mb-10">
+      {[
+        { val: timeLeft.days, label: 'DAYS' },
+        { val: timeLeft.hours, label: 'HOURS' },
+        { val: timeLeft.mins, label: 'MINS' },
+        { val: timeLeft.secs, label: 'SECS' },
+      ].map(({ val, label }) => (
+        <div key={label} className="flex flex-col items-center">
+          <div className="bg-slate-900 text-white text-xl md:text-2xl font-bold w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center font-heading">
+            {pad(val)}
+          </div>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 // --- Screen 5: Pricing ---
 const Pricing = () => {
   return (
     <section id="pricing" className="py-12 md:py-16 stripe-gradient">
       <div className="container mx-auto px-6">
+        {/* Early bird header with timer */}
         <div className="text-center mb-10 md:mb-16">
-          <h2 className="font-bold text-slate-900 mb-4">Start Free. Upgrade When You're Ready.</h2>
-          <p className="text-slate-500 text-base md:text-lg">No credit card. No commitment. Your OpenClaw assistant is live in 60 seconds.</p>
+          <div className="inline-flex items-center gap-2 border border-slate-200 bg-white text-slate-700 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            Limited Time Offer
+          </div>
+          <h2 className="font-bold text-slate-900 mb-6">Early bird pricing — 7 days left</h2>
+          <CountdownTimer />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {[
             {
               name: "Free",
+              desc: "Try how it works",
               price: "$0",
-              desc: "Try your OpenClaw assistant, no commitment",
-              features: ["1 OpenClaw assistant", "150 tasks included", "WhatsApp & Telegram", "Gmail, Calendar, Slack connections", "Powered by top AI (Claude, GPT, Gemini)", "Community support"],
-              cta: "Join Waitlist",
-              highlight: false
+              oldPrice: null,
+              saving: null,
+              features: ["A few tasks", "1 Agent", "Telegram only", "Basic open-source models", "Spend limits", "Kill switch", "Basic Dashboard", "Community Support"],
+              cta: "Start Free",
+              highlight: false,
+              ctaDark: false,
             },
             {
-              name: "Pro",
-              price: "$29",
-              desc: "For professionals who want to 10x their output",
-              features: ["Everything in Free", "Unlimited tasks", "Multiple OpenClaw assistants", "All 800+ app connections", "Email management & auto-replies", "Weekly automated reports", "Priority support", "Always-on (24/7)"],
-              cta: "Join Waitlist",
-              highlight: true
+              name: "Assistant",
+              desc: "Daily ops: emails, calendar, simple automations",
+              price: "$50",
+              oldPrice: "$130",
+              saving: "Save $80/mo",
+              features: ["Unlimited tasks", "3 Agents", "Telegram + WhatsApp + Slack", "Fast open-source models", "Spend limits", "Kill switch", "Full Dashboard", "Priority Support"],
+              cta: "Claim Assistant Rate",
+              highlight: true,
+              ctaDark: false,
             },
             {
-              name: "Team",
-              price: "$99",
-              desc: "For teams that want AI-powered operations",
-              features: ["Everything in Pro", "Unlimited OpenClaw assistants", "Team collaboration & shared assistants", "Custom workflows", "Advanced analytics & insights", "Priority support + SLA"],
-              cta: "Join Waitlist",
-              highlight: false
+              name: "Agent",
+              desc: "Complex workflows: reasoning, multi-step pipelines, RAG",
+              price: "$100",
+              oldPrice: "$250",
+              saving: "Save $150/mo",
+              features: ["Unlimited tasks", "Unlimited Agents", "All channels", "All models incl. premium", "Spend limits", "Kill switch", "Full + team Dashboard", "Priority + onboarding call"],
+              cta: "Claim Agent Rate",
+              highlight: false,
+              ctaDark: true,
             },
             {
               name: "Enterprise",
               price: "Custom",
               desc: "For organizations with security and scale requirements",
-              features: ["Everything in Team", "SSO, audit logs, compliance", "Custom integrations", "Dedicated account manager", "On-premise options", "Custom SLA"],
+              oldPrice: null,
+              saving: null,
+              features: ["Everything in Agent", "SSO, audit logs, compliance", "Custom integrations", "Dedicated account manager", "On-premise options", "Custom SLA"],
               cta: "Join Waitlist",
-              highlight: false
+              highlight: false,
+              ctaDark: false,
             }
           ].map((plan, i) => (
             <div key={i} className={`glass-card p-6 md:p-8 rounded-xl flex flex-col ${plan.highlight ? 'ring-2 ring-primary relative md:scale-105 z-10' : ''}`}>
               {plan.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                  Most Popular
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest flex items-center gap-1">
+                  <Zap className="w-3 h-3" /> Most Popular
                 </div>
               )}
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-2">
+                <h3 className="text-xl font-bold text-slate-900 mb-1">{plan.name}</h3>
+                <p className="text-xs text-slate-500 font-medium mb-3">{plan.desc}</p>
+                <div className="flex items-baseline gap-2 mb-1">
                   <span className="text-4xl font-bold text-slate-900">{plan.price}</span>
                   {plan.price !== "Custom" && <span className="text-slate-500 text-sm">/mo</span>}
+                  {plan.oldPrice && <span className="text-slate-400 text-sm line-through">{plan.oldPrice}</span>}
                 </div>
-                <p className="text-xs text-slate-500 font-medium">{plan.desc}</p>
+                {plan.saving && <span className="text-emerald-600 text-xs font-bold">{plan.saving}</span>}
               </div>
               <ul className="space-y-4 mb-10 flex-1">
                 {plan.features.map(feat => (
@@ -1005,13 +1074,13 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={openWaitlistForm} className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
+              <button onClick={openWaitlistForm} className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : plan.ctaDark ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
                 {plan.cta}
               </button>
             </div>
           ))}
         </div>
-        
+
         <div className="mt-16 text-center">
           <p className="text-slate-500 text-sm font-medium">
             All plans include WhatsApp, Telegram & Slack access. <span className="text-primary font-bold cursor-pointer hover:underline">Compare plans in detail</span>

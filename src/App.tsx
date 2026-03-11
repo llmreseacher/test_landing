@@ -285,8 +285,7 @@ const Navbar = ({ onJoin }: { onJoin: () => void }) => {
           <a href="#features" className="text-xs font-bold uppercase tracking-widest text-[#4D4D4D] hover:text-primary transition-colors">Docs</a>
         </nav>
 
-        <div className="hidden lg:flex items-center gap-6">
-          <button className="text-xs font-bold uppercase tracking-widest text-[#4D4D4D] hover:text-primary transition-colors">Login</button>
+        <div className="hidden lg:flex items-center">
           <button onClick={onJoin} className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
             Join Waitlist
           </button>

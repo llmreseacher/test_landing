@@ -181,7 +181,7 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                     <Check className="w-7 h-7 text-emerald-600" />
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">You're on the list!</h3>
-                  <p className="text-slate-500 text-sm">We'll reach out when your spot is ready.<br/>Please check your spam folder if you don't see our email.</p>
+                  <p className="text-slate-500 text-sm">We'll reach out when your spot is ready.<br/>Please check your <span className="font-bold text-slate-700">spam folder</span> if you don't see our email.</p>
                   <button onClick={onClose} className="mt-6 text-sm font-bold text-primary hover:underline">Back to site</button>
                 </div>
               ) : (

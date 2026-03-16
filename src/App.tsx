@@ -46,7 +46,8 @@ import {
   Settings,
   GitBranch,
   CheckCircle2,
-  X
+  X,
+  Send
 } from 'lucide-react';
 
 // --- Waitlist Form Modal ---
@@ -268,7 +269,7 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
 
 // --- Components ---
 
-const Navbar = ({ onJoin }: { onJoin: () => void }) => {
+const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -286,9 +287,10 @@ const Navbar = ({ onJoin }: { onJoin: () => void }) => {
         </nav>
 
         <div className="hidden lg:flex items-center">
-          <button onClick={onJoin} className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all">
-            Join Waitlist
-          </button>
+          <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-lg hover:bg-accent transition-all flex items-center gap-2">
+            <Send className="w-3.5 h-3.5" />
+            Join via Telegram
+          </a>
         </div>
 
         <button className="lg:hidden p-2 text-slate-600" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -310,10 +312,10 @@ const Navbar = ({ onJoin }: { onJoin: () => void }) => {
               <a href="#pricing" onClick={() => setMobileOpen(false)} className="block text-sm font-bold uppercase tracking-wider text-[#4D4D4D] hover:text-primary py-2">Pricing</a>
               <a href="#features" onClick={() => setMobileOpen(false)} className="block text-sm font-bold uppercase tracking-wider text-[#4D4D4D] hover:text-primary py-2">Docs</a>
               <div className="pt-4 border-t border-slate-200 space-y-3">
-                <button className="w-full text-sm font-bold uppercase tracking-wider text-[#4D4D4D] py-2">Login</button>
-                <button onClick={() => { setMobileOpen(false); onJoin(); }} className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent block text-center">
-                  Join Waitlist
-                </button>
+                <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)} className="w-full bg-primary text-white text-sm font-bold uppercase tracking-wider py-2.5 rounded-lg hover:bg-accent flex items-center justify-center gap-2">
+                  <Send className="w-3.5 h-3.5" />
+                  Join via Telegram
+                </a>
               </div>
             </div>
           </motion.div>
@@ -630,9 +632,10 @@ const ValueProps = () => {
             </div>
             
             <div className="pt-4">
-              <button onClick={openWaitlistForm} className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-block">
-                Join Waitlist
-              </button>
+              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-accent transition-all shadow-lg shadow-primary/20 inline-flex items-center gap-2">
+                <Send className="w-4 h-4" />
+                Join via Telegram
+              </a>
             </div>
           </div>
 
@@ -819,9 +822,10 @@ const HowItWorks = () => {
         </div>
 
         <div className="mt-12 md:mt-24 text-center">
-          <button onClick={openWaitlistForm} className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-block">
-            Join Waitlist
-          </button>
+          <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all shadow-xl shadow-primary/20 inline-flex items-center gap-2">
+            <Send className="w-4 h-4" />
+            Join via Telegram
+          </a>
         </div>
       </div>
     </section>
@@ -1171,6 +1175,7 @@ const FAQ = () => {
   );
 };
 
+const TELEGRAM_BOT_URL = 'https://t.me/openclawincloudebot';
 const openWaitlistForm = () => window.dispatchEvent(new CustomEvent('open-waitlist'));
 
 export default function App() {
@@ -1182,11 +1187,9 @@ export default function App() {
     return () => window.removeEventListener('open-waitlist', handler);
   }, []);
 
-  const openForm = () => setFormOpen(true);
-
   return (
     <div className="min-h-screen bg-white selection:bg-primary/20 selection:text-primary">
-      <Navbar onJoin={openForm} />
+      <Navbar />
       <AnimatePresence>
         {formOpen && <WaitlistModal open={formOpen} onClose={() => setFormOpen(false)} />}
       </AnimatePresence>
@@ -1219,14 +1222,18 @@ export default function App() {
                 OpenClaw AI assistant that handles emails, manages your calendar, automates repetitive tasks, and reports back through WhatsApp, Telegram, or Slack. No setup, ready in 60 seconds.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={openWaitlistForm} className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
-                  Join Waitlist
+                <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="bg-primary text-white px-7 py-3 rounded-xl font-bold text-lg hover:bg-accent transition-all flex items-center justify-center gap-2 group shadow-xl shadow-primary/20">
+                  <Send className="w-5 h-5" />
+                  Join via Telegram
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </a>
                 <a href="#how-it-works" className="bg-slate-50 text-slate-900 px-7 py-3 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all border border-slate-200 flex items-center justify-center gap-2">
                   See How It Works
                 </a>
               </div>
+              <p className="text-sm text-slate-400 mt-1">
+                Prefer email? <button onClick={openWaitlistForm} className="text-primary hover:underline font-medium">Join via form</button>
+              </p>
               <TrustBar />
             </motion.div>
 
@@ -1261,9 +1268,10 @@ export default function App() {
             Join thousands of founders, marketers, and teams who delegate their busywork to their OpenClaw assistant.
           </p>
           <p className="text-sm text-slate-500 mb-8 md:mb-12">No credit card. No setup. No tech skills. Just results.</p>
-          <button onClick={openWaitlistForm} className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
-            Join Waitlist
-          </button>
+          <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="bg-white text-slate-900 px-6 md:px-9 py-3 md:py-4 rounded-xl font-bold text-base md:text-xl hover:bg-slate-100 transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-flex items-center gap-2">
+            <Send className="w-5 h-5" />
+            Join via Telegram
+          </a>
         </div>
       </section>
 

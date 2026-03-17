@@ -50,7 +50,7 @@ import {
   Send
 } from 'lucide-react';
 
-// --- Waitlist Form Modal ---
+// --- Early Access Form Modal ---
 const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', useCase: '', role: '', models: [] as string[] });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -125,9 +125,9 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       // Fire events so GTM & HubSpot tracking see the conversion
       const dl = (w.dataLayer as unknown[][]) || [];
       w.dataLayer = dl;
-      dl.push({ event: 'waitlist_form_submitted', email: form.email } as unknown as unknown[]);
+      dl.push({ event: 'early_access_form_submitted', email: form.email } as unknown as unknown[]);
 
-      _hsq.push(['trackCustomBehavioralEvent', { name: 'pe41836896_waitlist_form_submitted', properties: { email: form.email } }]);
+      _hsq.push(['trackCustomBehavioralEvent', { name: 'pe41836896_early_access_form_submitted', properties: { email: form.email } }]);
 
       setStatus('sent');
     } catch { setStatus('error'); }
@@ -167,7 +167,7 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                 Early Access
               </div>
               <h2 className="text-white text-xl md:text-2xl lg:text-3xl leading-tight mb-2">
-                Join the Waitlist
+                Get Early Access
               </h2>
               <p className="text-slate-400 text-xs md:text-sm max-w-md mx-auto">
                 Get early access to your OpenClaw AI assistant. Be the first to automate your workflow.
@@ -181,8 +181,8 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                   <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Check className="w-7 h-7 text-emerald-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">You're on the list!</h3>
-                  <p className="text-slate-500 text-sm">We'll reach out when your spot is ready.<br/>Please check your <span className="font-bold text-slate-700">spam folder</span> if you don't see our email.</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">You're all set!</h3>
+                  <p className="text-slate-500 text-sm">Your OpenClaw agent will be ready within 24 hours.<br/>Check your email for details.</p>
                   <button onClick={onClose} className="mt-6 text-sm font-bold text-primary hover:underline">Back to site</button>
                 </div>
               ) : (
@@ -248,7 +248,7 @@ const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                   {/* Submit */}
                   <button type="submit" disabled={status === 'sending'}
                     className="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-base hover:bg-accent transition-all shadow-lg shadow-primary/20 disabled:opacity-60 flex items-center justify-center gap-2">
-                    {status === 'sending' ? 'Submitting...' : 'Join Waitlist'}
+                    {status === 'sending' ? 'Submitting...' : 'Get Started'}
                     {status !== 'sending' && <ArrowRight className="w-4 h-4" />}
                   </button>
 
@@ -1049,7 +1049,7 @@ const Pricing = () => {
               oldPrice: null,
               saving: null,
               features: ["Everything in Agent", "SSO, audit logs, compliance", "Custom integrations", "Dedicated account manager", "On-premise options", "Custom SLA"],
-              cta: "Join Waitlist",
+              cta: "Get Started",
               highlight: false,
               ctaDark: false,
             }

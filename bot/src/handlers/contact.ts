@@ -1,5 +1,6 @@
 import { Context } from 'telegraf';
 import { notifyAdmin } from '../services/notify.js';
+import { trackContact } from '../services/tracker.js';
 import type { LeadData } from '../types.js';
 
 export async function handleContact(ctx: Context) {
@@ -25,12 +26,13 @@ export async function handleContact(ctx: Context) {
     return;
   }
 
+  const from = ctx.from!;
   const lead: LeadData = {
     firstName: contact.first_name || '',
     lastName: contact.last_name || '',
     phone: contact.phone_number,
-    telegramUsername: ctx.from?.username,
-    telegramUserId: ctx.from.id,
+    telegramUsername: from.username,
+    telegramUserId: from.id,
   };
 
   // Send confirmation immediately
@@ -38,6 +40,9 @@ export async function handleContact(ctx: Context) {
     "Thanks! You're on the waitlist.\n\nWe'll reach out to you soon. In the meantime, check out what OpenClaw can do: https://usereloai.com",
     { reply_markup: { remove_keyboard: true } }
   );
+
+  // Track contact shared
+  trackContact(from.id);
 
   // Notify admin
   await notifyAdmin(ctx, lead);

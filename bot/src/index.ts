@@ -1,25 +1,27 @@
 import { Telegraf } from 'telegraf';
 import { config } from './config.js';
 import { handleStart } from './handlers/start.js';
-import { handleContact } from './handlers/contact.js';
+import { handleCallback } from './handlers/callback.js';
+import { getStats } from './services/tracker.js';
 
 const bot = new Telegraf(config.botToken);
 
 bot.start(handleStart);
-bot.on('contact', handleContact);
 
-// Fallback for any other message
-bot.on('message', (ctx) => {
-  ctx.reply(
-    'Please share your contact using the button below so we can reach you.',
-    {
-      reply_markup: {
-        keyboard: [[{ text: 'Share My Contact', request_contact: true }]],
-        resize_keyboard: true,
-        one_time_keyboard: true,
-      },
-    }
+bot.command('stats', async (ctx) => {
+  if (String(ctx.from.id) !== config.adminChatId && String(ctx.chat.id) !== config.adminChatId) {
+    return;
+  }
+  const stats = getStats();
+  await ctx.reply(
+    `📊 Bot Stats\n\nTotal users: ${stats.total}\nShared contact: ${stats.sharedContact}`
   );
+});
+
+bot.on('callback_query', handleCallback);
+
+bot.on('message', (ctx) => {
+  ctx.reply("Want to get your OpenClaw agent? Just type /start to begin!");
 });
 
 // Webhook if WEBHOOK_DOMAIN is set, polling otherwise

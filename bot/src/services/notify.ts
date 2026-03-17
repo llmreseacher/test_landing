@@ -8,9 +8,12 @@ export async function notifyAdmin(ctx: Context, lead: LeadData): Promise<void> {
     'New Telegram Lead',
     '',
     `Name: ${lead.firstName} ${lead.lastName}`.trim(),
-    `Phone: ${lead.phone}`,
     `Telegram: ${username}`,
     `User ID: ${lead.telegramUserId}`,
+    '',
+    `Tasks: ${lead.q1 || '-'}`,
+    `Tools: ${lead.q2 || '-'}`,
+    `Channel: ${lead.q3 || '-'}`,
   ].join('\n');
 
   try {

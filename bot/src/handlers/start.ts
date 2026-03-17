@@ -16,7 +16,7 @@ export async function handleStart(ctx: Context) {
   }
 
   await ctx.reply(
-    `Hey ${firstName}!\n\nWelcome to OpenClaw — your AI assistant that handles emails, calendar, and tasks.\n\nJust answer a few quick questions and your OpenClaw agent will be configured for you.`
+    `Hey ${firstName}!\n\nWelcome to OpenClaw, your AI assistant that handles emails, calendar, and tasks.\n\nJust answer a few quick questions and your OpenClaw agent will be configured for you.`
   );
 
   const q = getQuestion('q1')!;

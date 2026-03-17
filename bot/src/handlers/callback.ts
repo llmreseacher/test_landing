@@ -46,7 +46,7 @@ export async function handleCallback(ctx: Context) {
     clearSession(from.id);
 
     await ctx.reply(
-      "You're all set! Your OpenClaw agent is being configured now — expect it live within 24 hours. We'll ping you right here!"
+      "You're all set! Your OpenClaw agent is being configured now and will be live within 24 hours. We'll ping you right here!"
     );
 
     await notifyAdmin(ctx, lead);

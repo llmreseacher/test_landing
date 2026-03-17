@@ -50,223 +50,6 @@ import {
   Send
 } from 'lucide-react';
 
-// --- Early Access Form Modal ---
-const WaitlistModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', useCase: '', role: '', models: [] as string[] });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-
-  useEffect(() => {
-    if (open) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-
-  useEffect(() => {
-    if (open) { setForm({ firstName: '', lastName: '', email: '', useCase: '', role: '', models: [] }); setStatus('idle'); }
-  }, [open]);
-
-  const toggleModel = (m: string) => setForm(f => ({ ...f, models: f.models.includes(m) ? f.models.filter(x => x !== m) : [...f.models, m] }));
-
-  const getHutk = () => {
-    const match = document.cookie.match(/hubspotutk=([^;]+)/);
-    return match ? match[1] : undefined;
-  };
-
-  // Track page view when modal opens so HubSpot knows the conversion page
-  useEffect(() => {
-    if (open) {
-      const w = window as unknown as Record<string, unknown>;
-      const _hsq = (w._hsq as unknown[][]) || [];
-      w._hsq = _hsq;
-      _hsq.push(['trackPageView']);
-    }
-  }, [open]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('sending');
-    try {
-      // Identify contact via HubSpot tracking (helps link even without cookie)
-      const w = window as unknown as Record<string, unknown>;
-      const _hsq = (w._hsq as unknown[][]) || [];
-      w._hsq = _hsq;
-      _hsq.push(['identify', { email: form.email }]);
-      _hsq.push(['trackPageView']);
-
-      const hutk = getHutk();
-      const fields = [
-        { name: 'firstname', value: form.firstName },
-        { name: 'lastname', value: form.lastName },
-        { name: 'email', value: form.email },
-        { name: 'use_case', value: form.useCase },
-        { name: 'role', value: form.role },
-        { name: 'models', value: form.models.join(';') },
-      ];
-
-      const payload: Record<string, unknown> = {
-        fields,
-        context: {
-          pageUri: window.location.href,
-          pageName: document.title,
-          ...(hutk ? { hutk } : {}),
-        },
-      };
-      const res = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/41836896/6ab84485-2e42-4b43-8e82-5e1931738527', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => null);
-        console.error('HubSpot submission error:', err);
-        setStatus('error');
-        return;
-      }
-      // Fire events so GTM & HubSpot tracking see the conversion
-      const dl = (w.dataLayer as unknown[][]) || [];
-      w.dataLayer = dl;
-      dl.push({ event: 'early_access_form_submitted', email: form.email } as unknown as unknown[]);
-
-      _hsq.push(['trackCustomBehavioralEvent', { name: 'pe41836896_early_access_form_submitted', properties: { email: form.email } }]);
-
-      setStatus('sent');
-    } catch { setStatus('error'); }
-  };
-
-  if (!open) return null;
-
-  const inputClass = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 focus:bg-white";
-  const labelClass = "block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5";
-  const models = ['Claude', 'OpenAI', 'MiniMax 2.5', 'DeepSeek', 'Other'];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[100] overflow-hidden"
-    >
-      <div className="h-full bg-black/60 backdrop-blur-xl flex flex-col">
-        {/* Top bar */}
-        <div className="flex items-center justify-between px-6 md:px-12 py-4 shrink-0">
-          <img src="/logo-light.png" alt="LLM.API" className="h-8 opacity-80" />
-          <button onClick={onClose} className="text-white/60 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-            <X className="w-5 h-5" />
-            Close
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 flex items-center justify-center px-6">
-          <div className="w-full max-w-xl">
-            {/* Header */}
-            <div className="text-center mb-5">
-              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                Early Access
-              </div>
-              <h2 className="text-white text-xl md:text-2xl lg:text-3xl leading-tight mb-2">
-                Get Early Access
-              </h2>
-              <p className="text-slate-400 text-xs md:text-sm max-w-md mx-auto">
-                Get early access to your OpenClaw AI assistant. Be the first to automate your workflow.
-              </p>
-            </div>
-
-            {/* Form */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/20">
-              {status === 'sent' ? (
-                <div className="text-center py-8">
-                  <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check className="w-7 h-7 text-emerald-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">You're all set!</h3>
-                  <p className="text-slate-500 text-sm">Your OpenClaw agent will be ready within 24 hours.<br/>Check your email for details.</p>
-                  <button onClick={onClose} className="mt-6 text-sm font-bold text-primary hover:underline">Back to site</button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  {/* Name row */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClass}>First Name</label>
-                      <input type="text" value={form.firstName} onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} placeholder="Jane" className={inputClass} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Last Name</label>
-                      <input type="text" value={form.lastName} onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))} placeholder="Smith" className={inputClass} />
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label className={labelClass}>Email <span className="text-primary">*</span></label>
-                    <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="jane@company.com" className={inputClass} />
-                  </div>
-
-                  {/* Dropdowns row */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClass}>Use case</label>
-                      <select value={form.useCase} onChange={e => setForm(f => ({ ...f, useCase: e.target.value }))} className={inputClass + " appearance-none cursor-pointer"}>
-                        <option value="">Select...</option>
-                        <option value="personal">Personal use</option>
-                        <option value="startup">Startup</option>
-                        <option value="enterprise">Enterprise</option>
-                        <option value="agency">Agency</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className={labelClass}>Your role</label>
-                      <select value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))} className={inputClass + " appearance-none cursor-pointer"}>
-                        <option value="">Select...</option>
-                        <option value="founder">Founder / CEO</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="engineering">Engineering</option>
-                        <option value="product">Product</option>
-                        <option value="operations">Operations</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Models */}
-                  <div>
-                    <label className={labelClass}>Which models interest you?</label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {models.map(m => (
-                        <button key={m} type="button" onClick={() => toggleModel(m)}
-                          className={`px-3.5 py-1.5 rounded-lg text-sm font-medium border transition-all ${form.models.includes(m) ? 'bg-primary text-white border-primary' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300'}`}>
-                          {m}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Submit */}
-                  <button type="submit" disabled={status === 'sending'}
-                    className="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-base hover:bg-accent transition-all shadow-lg shadow-primary/20 disabled:opacity-60 flex items-center justify-center gap-2">
-                    {status === 'sending' ? 'Submitting...' : 'Get Started'}
-                    {status !== 'sending' && <ArrowRight className="w-4 h-4" />}
-                  </button>
-
-                  {status === 'error' && <p className="text-red-500 text-sm text-center">Something went wrong. Please try again.</p>}
-                </form>
-              )}
-            </div>
-
-            <p className="text-center text-slate-500 text-xs mt-4">
-              No spam. No credit card required.
-            </p>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 // --- Components ---
 
 const Navbar = () => {
@@ -1077,9 +860,9 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={openWaitlistForm} className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : plan.ctaDark ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
+              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className={`w-full py-2 rounded-xl font-bold text-sm transition-all block text-center ${plan.highlight ? 'bg-primary text-white hover:bg-accent shadow-lg shadow-primary/20' : plan.ctaDark ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-50 text-slate-900 hover:bg-slate-100'}`}>
                 {plan.cta}
-              </button>
+              </a>
             </div>
           ))}
         </div>
@@ -1176,23 +959,11 @@ const FAQ = () => {
 };
 
 const TELEGRAM_BOT_URL = 'https://t.me/openclawincloudebot';
-const openWaitlistForm = () => window.dispatchEvent(new CustomEvent('open-waitlist'));
 
 export default function App() {
-  const [formOpen, setFormOpen] = useState(false);
-
-  useEffect(() => {
-    const handler = () => setFormOpen(true);
-    window.addEventListener('open-waitlist', handler);
-    return () => window.removeEventListener('open-waitlist', handler);
-  }, []);
-
   return (
     <div className="min-h-screen bg-white selection:bg-primary/20 selection:text-primary">
       <Navbar />
-      <AnimatePresence>
-        {formOpen && <WaitlistModal open={formOpen} onClose={() => setFormOpen(false)} />}
-      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="pt-24 pb-8 md:pt-32 md:pb-12 overflow-hidden relative">
@@ -1232,7 +1003,7 @@ export default function App() {
                 </a>
               </div>
               <p className="text-sm text-slate-400 mt-1">
-                Prefer email? <button onClick={openWaitlistForm} className="text-primary hover:underline font-medium">Join via form</button>
+                No setup required. Start chatting in seconds.
               </p>
               <TrustBar />
             </motion.div>
